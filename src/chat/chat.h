@@ -4,6 +4,8 @@
 #include "user/user.h"
 #include <memory>
 #include <vector>
+#include "system/weak_map.h"
+
 
 /**
  * @struct Participant
@@ -11,8 +13,9 @@
  */
 struct Participant {
   std::weak_ptr<User> _user;         ///< Weak reference to the user.
-  std::size_t _lastReadMessageIndex; ///< Index of the last message read by the participant.
-  bool _deletedFromChat;             ///< Indicates if the participant was removed from the chat.
+                                     ///< participant.
+  bool _deletedFromChat; ///< Indicates if the participant was removed from the
+                         ///< chat.
 };
 
 /**
@@ -21,17 +24,21 @@ struct Participant {
  */
 class Chat {
 private:
-  std::vector<Participant> _participants;          ///< List of chat participants.
-  std::vector<std::shared_ptr<Message>> _messages; ///< List of messages in the chat.
+  std::vector<Participant> _participants; ///< List of chat participants.
+  std::vector<std::shared_ptr<Message>>
+      _messages; ///< List of messages in the chat.
+  weak_map <User,std::size_t> _lastReadMessageMap; 
+
 
 public:
   /**
    * @brief Default constructor for an empty chat.
-   * @details The message vector is automatically initialized as empty by std::vector.
+   * @details The message vector is automatically initialized as empty by
+   * std::vector.
    */
   Chat() = default;
   Chat(const Chat &) = delete;
-  Chat& operator = (const Chat&) = delete;
+  Chat &operator=(const Chat &) = delete;
 
   /**
    * @brief Default virtual destructor.
@@ -53,9 +60,11 @@ public:
   /**
    * @brief Sets the deletedFromChat status for a specific user.
    * @param user Shared pointer to the user.
-   * @param deletedFromChat Boolean indicating if the user is deleted from the chat.
+   * @param deletedFromChat Boolean indicating if the user is deleted from the
+   * chat.
    */
-  void setDeletedFromChat(const std::shared_ptr<User> &user, const bool deletedFromChat);
+  void setDeletedFromChat(const std::shared_ptr<User> &user,
+                          const bool deletedFromChat);
 
   /**
    * @brief Retrieves the list of messages in the chat.
@@ -94,7 +103,8 @@ public:
    * @param user Shared pointer to the user.
    * @param newLastReadMessageIndex The new index of the last read message.
    */
-  void updateLastReadMessageIndex(const std::shared_ptr<User> &user, std::size_t newLastReadMessageIndex);
+  void updateLastReadMessageIndex(const std::shared_ptr<User> &user,
+                                  std::size_t newLastReadMessageIndex);
 
   /**
    * @brief Removes a participant from the chat (to be implemented).

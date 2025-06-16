@@ -2,6 +2,7 @@
 #include "menu/1_registration.h"
 #include "menu/2_0_login_menu.h"
 #include "system/chat_system.h"
+#include "system/system_function.h"
 #include <iostream>
 
 /**
@@ -11,6 +12,10 @@
  * (registration/login), and manages the main program loop.
  */
 int main() {
+
+  std::setlocale(LC_ALL, "");
+  enableUTF8Console();
+
   // Create ChatSystem instance
   ChatSystem chatSystem;
 
