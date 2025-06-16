@@ -24,6 +24,7 @@ if(DEFINED SOURCE_FILE)
 endif()
 
 # ==== Сборка всех .cpp в текущей папке ====
-file(GLOB ALL_SOURCES "*.cpp")
+file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
+include_directories(${CMAKE_SOURCE_DIR}/src)
 add_executable(${PROJECT_NAME} ${ALL_SOURCES})
   

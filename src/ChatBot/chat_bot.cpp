@@ -7,8 +7,8 @@
 /**
  * @brief Main entry point for the chat system application.
  * @return 0 on successful execution or exit.
- * @details Initializes the chat system, handles user authentication (registration/login), and manages the main program
- * loop.
+ * @details Initializes the chat system, handles user authentication
+ * (registration/login), and manages the main program loop.
  */
 int main() {
   // Create ChatSystem instance
