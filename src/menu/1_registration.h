@@ -4,14 +4,9 @@
 #include <memory>
 #include <string>
 
-/**
- * @brief Structure to store user input data for registration or login.
- */
-struct UserData {
-  std::string _login;    ///< User login.
-  std::string _password; ///< User password.
-  std::string _name;     ///< User's display name.
-};
+// доделвть - добавить везде unordered map для процедур логина и поиска юзера по
+// логину
+// unordered_map<std::string, std::shared_ptr<User>> в ChatSystem
 
 /**
  * @brief Validates login or password input against specified constraints.
@@ -38,7 +33,7 @@ bool checkNewDataInputForLimits(const std::string &inputData, std::size_t conten
  * @details Displays a prompt, retrieves user input, validates it, and returns the validated value.
  */
 std::string inputDataValidation(const std::string &prompt, std::size_t dataLengthMin, std::size_t dataLengthMax,
-                                bool isPassword, UserData dataForValidation, bool newUserData,
+                                bool isPassword, bool newUserData,
                                 const ChatSystem &chatSystem);
 
 /**
@@ -63,28 +58,25 @@ const std::shared_ptr<User> checkLoginExists(const std::string &login, const Cha
  * @param chatSystem Reference to the chat system.
  * @return True if the password is valid, false otherwise.
  */
-bool checkPasswordValidForUser(const UserData &userData, const ChatSystem &chatSystem);
+bool checkPasswordValidForUser(const std::string &userPassword, const std::string& userLogin, const ChatSystem &chatSystem);
 
 /**
  * @brief Prompts and validates a new user login.
- * @param userData Structure to store the validated login.
  * @param chatSystem Reference to the chat system for uniqueness checks.
  */
-void inputNewLogin(UserData &userData, const ChatSystem &chatSystem);
+std::string inputNewLogin(const ChatSystem &chatSystem);
 
 /**
  * @brief Prompts and validates a new user password.
- * @param userData Structure to store the validated password.
  * @param chatSystem Reference to the chat system.
  */
-void inputNewPassword(UserData &userData, const ChatSystem &chatSystem);
+std::string inputNewPassword(const ChatSystem &chatSystem);
 
 /**
  * @brief Prompts and validates a new user display name.
- * @param userData Structure to store the validated name.
  * @param chatSystem Reference to the chat system.
  */
-void inputNewName(UserData &userData, const ChatSystem &chatSystem);
+std::string inputNewName(const ChatSystem &chatSystem);
 
 /**
  * @brief Performs the full registration process for a new user.

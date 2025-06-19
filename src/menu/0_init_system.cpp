@@ -1,4 +1,4 @@
-#include "menu/0_init_system.h"
+#include "0_init_system.h"
 #include "chat/chat.h"
 #include "exception/validation_exception.h"
 #include "message/message_content_struct.h"
@@ -29,14 +29,14 @@ InitDataArray::InitDataArray(std::string messageText, std::string timeStamp, std
  */
 void systemInitTest(ChatSystem &_chatsystem) {
   // Создание пользователей
-  auto Alex2104_ptr = std::make_shared<User>("alex1980", "Sasha", "User01");
-  auto Elena1510_ptr = std::make_shared<User>("elena1980", "Elena", "User0");
-  auto Serg0101_ptr = std::make_shared<User>("serg1980", "Sergei", "User0");
-  auto Vit2504_ptr = std::make_shared<User>("vit1980", "Vitaliy", "User0");
-  auto mar1980_ptr = std::make_shared<User>("mar1980", "Mariya", "User0");
-  auto fed1980_ptr = std::make_shared<User>("fed1980", "Fedor", "User0");
-  auto vera1980_ptr = std::make_shared<User>("vera1980", "Vera", "User0");
-  auto yak1980_ptr = std::make_shared<User>("yak1980", "Yakov", "User0");
+  auto Alex2104_ptr = std::make_shared<User>(UserData("alex1980", "Sasha", "User01","...@gmail.com","+111"));
+  auto Elena1510_ptr = std::make_shared<User>(UserData("elena1980", "Elena", "User0","...@gmail.com","+111"));
+  auto Serg0101_ptr = std::make_shared<User>(UserData("serg1980", "Sergei", "User0","...@gmail.com","+111"));
+  auto Vit2504_ptr = std::make_shared<User>(UserData("vit1980", "Vitaliy", "User0","...@gmail.com","+111"));
+  auto mar1980_ptr = std::make_shared<User>(UserData("mar1980", "Mariya", "User0","...@gmail.com","+111"));
+  auto fed1980_ptr = std::make_shared<User>(UserData("fed1980", "Fedor", "User0","...@gmail.com","+111"));
+  auto vera1980_ptr = std::make_shared<User>(UserData("vera1980", "Vera", "User0","...@gmail.com","+111"));
+  auto yak1980_ptr = std::make_shared<User>(UserData("yak1980", "Yakov", "User0","...@gmail.com","+111"));
 
   Alex2104_ptr->showUserData();
   Elena1510_ptr->showUserData();

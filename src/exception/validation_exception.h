@@ -41,8 +41,8 @@ public:
    * @param ch The invalid character.
    * @details Sets the error message to include the invalid character.
    */
-  InvalidCharacterException(const char &ch)
-      : ValidationException(std::string("!!!Недопустимый символ '") + ch + "'") {};
+  InvalidCharacterException(const std::string &ch)
+      : ValidationException("!!!Недопустимый символ '" + ch + "'") {};
 };
 
 /**

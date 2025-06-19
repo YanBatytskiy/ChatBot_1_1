@@ -10,9 +10,10 @@
  */
 class ChatSystem {
 private:
-  std::vector<std::shared_ptr<User>> _users;      ///< List of users in the system.
-  std::vector<std::shared_ptr<Chat>> _chats;      ///< List of chats in the system.
-  std::shared_ptr<User> _activeUser;              ///< Current active user.
+  std::vector<std::shared_ptr<User>> _users; ///< List of users in the system.
+  std::vector<std::shared_ptr<Chat>> _chats; ///< List of chats in the system.
+  std::shared_ptr<User> _activeUser;         ///< Current active user.
+  std::unordered_map<std::string, std::shared_ptr<User>> _loginUserMap;
 
 public:
   /**
@@ -44,10 +45,17 @@ public:
   const std::shared_ptr<User> &getActiveUser() const;
 
   /**
+   * @brief Gets the login user map.
+   * @return Const reference to the unordered map.
+   */
+  const std::unordered_map<std::string, std::shared_ptr<User>> &
+  getLoginUserMap() const;
+
+  /**
    * @brief Sets the active user.
    * @param user Shared pointer to the user to set as active.
    */
-  void setActiveUser(const std::shared_ptr<User> user);
+  void setActiveUser(const std::shared_ptr<User> &user);
 
   /**
    * @brief Adds a user to the system.
@@ -78,13 +86,14 @@ public:
    * @param showActiveUser True to include the active user in the list.
    * @return The number of users displayed.
    */
-  std::size_t showUserList(const bool showActiveUser); // вывод на экрын списка пользователей
+  std::size_t showUserList(
+      const bool showActiveUser); // вывод на экрын списка пользователей
 
   /**
    * @brief Finds users matching a search string.
    * @param users Vector to store found users.
    * @param textToFind Search string to match against user names or logins.
    */
-  void findUser(std::vector<std::shared_ptr<User>>& users, const std::string& textToFind);           // поиск пользователя
+  void findUser(std::vector<std::shared_ptr<User>> &users,
+                const std::string &textToFind); // поиск пользователя
 };
-

@@ -14,11 +14,11 @@ void userNameChange(ChatSystem &chatSystem) { // смена имени поль�
 
   UserData userData;
 
-  inputNewName(userData, chatSystem);
-  if (userData._name.empty())
+  std::string newName = inputNewName(chatSystem);
+  if (newName.empty())
     return;
 
-  chatSystem.getActiveUser()->setUserName(userData._name);
+  chatSystem.getActiveUser()->setUserName(newName);
 
   std::cout << "Имя изменено. Логин  = " << chatSystem.getActiveUser()->getLogin()
             << " и Имя = " << chatSystem.getActiveUser()->getUserName() << std::endl;
@@ -33,11 +33,11 @@ void userPasswordChange(ChatSystem &chatSystem) { // смена пароля п�
 
   UserData userData;
 
-  inputNewPassword(userData, chatSystem);
-  if (userData._password.empty())
+std::string newPassword = inputNewPassword(chatSystem);
+  if (newPassword.empty())
     return;
 
-  chatSystem.getActiveUser()->setPassword(userData._password);
+  chatSystem.getActiveUser()->setPassword(newPassword);
 
   std::cout << "Пароль изменен. Логин = " << chatSystem.getActiveUser()->getLogin()
             << " и Имя = " << chatSystem.getActiveUser()->getUserName()

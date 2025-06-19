@@ -6,13 +6,30 @@
 class UserChatList;
 
 /**
+ * @brief Structure to store user input data for registration or login.
+ */
+struct UserData {
+  std::string _login;        ///< User login.
+  std::string _passwordHash; ///< User passwordHash.
+  std::string _userName;     ///< User's display name.
+  std::string _email;        ///< User's email.
+  std::string _phone;        ///< User's phone.
+
+  UserData() = default;
+
+  UserData(const std::string &login, const std::string &name,
+           const std::string &passwordHash, const std::string &email,
+           const std::string &phone)
+      : _login(login), _passwordHash(passwordHash), _userName(name),
+        _email(email), _phone(phone) {};
+};
+
+/**
  * @brief Class representing a user in the chat system.
  */
 class User {
 private:
-  std::string _login;                       ///< User login.
-  std::string _userName;                    ///< User's display name.
-  std::string _password;                    ///< User password.
+  UserData _userData;
   std::shared_ptr<UserChatList> _userChats; ///< User's chat list.
 
 public:
@@ -20,9 +37,12 @@ public:
    * @brief Constructor for User.
    * @param login User's login.
    * @param userName User's display name.
-   * @param password User's password.
+   * @param passwordHash User's passwordHash.
    */
-  User(const std::string &login, const std::string &userName, const std::string &password);
+  //   User(const std::string &login, const std::string &userName,
+  //        const std::string &passwordHash);
+
+  User(const UserData &userData);
 
   /**
    * @brief Default destructor.
@@ -48,10 +68,22 @@ public:
   std::string getUserName() const;
 
   /**
-   * @brief Gets the user's password.
-   * @return The user's password string.
+   * @brief Gets the user's passwordHash.
+   * @return The user's passwordHash string.
    */
   std::string getPassword() const;
+
+  /**
+   * @brief Gets the user's email.
+   * @return The user's Email string.
+   */
+  std::string getEmail() const;
+
+  /**
+   * @brief Gets the user's phone.
+   * @return The user's phone string.
+   */
+  std::string getPhone() const;
 
   /**
    * @brief Gets the user's chat list.
@@ -72,17 +104,29 @@ public:
   void setUserName(const std::string &userName);
 
   /**
-   * @brief Sets the user's password.
-   * @param password The new password string.
+   * @brief Sets the user's passwordHash.
+   * @param passwordHash The new passwordHash string.
    */
-  void setPassword(const std::string &password);
+  void setPassword(const std::string &passwordHash);
 
   /**
-   * @brief Checks if the provided password matches the user's password.
-   * @param password The password to check.
-   * @return True if the password matches, false otherwise.
+   * @brief Sets the user's email.
+   * @param email The new email string.
    */
-  bool checkPassword(const std::string &password) const;
+  void setEmail(const std::string &email);
+
+  /**
+   * @brief Sets the user's phone.
+   * @param phone The new phone string.
+   */
+  void setPhone(const std::string &phone);
+
+  /**
+   * @brief Checks if the provided passwordHash matches the user's passwordHash.
+   * @param passwordHash The passwordHash to check.
+   * @return True if the passwordHash matches, false otherwise.
+   */
+  bool checkPassword(const std::string &passwordHash) const;
 
   /**
    * @brief Checks if the provided login matches the user's login.
@@ -103,4 +147,3 @@ public:
    */
   void printChatList(const std::shared_ptr<User> &user) const;
 };
-
