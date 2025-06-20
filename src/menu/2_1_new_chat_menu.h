@@ -2,6 +2,13 @@
 #include "system/chat_system.h"
 #include "system/system_function.h"
 
+
+/**
+ * @brief check char for ansii.
+ * @param inputData string for check.
+ */
+void validateAsciiAlnumOnly(const std::string &inputData);
+
 /**
  * @brief Creates a new chat by selecting participants.
  * @param chatSystem Reference to the chat system.

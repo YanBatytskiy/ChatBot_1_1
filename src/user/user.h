@@ -17,11 +17,9 @@ struct UserData {
 
   UserData() = default;
 
-  UserData(const std::string &login, const std::string &name,
-           const std::string &passwordHash, const std::string &email,
+  UserData(const std::string &login, const std::string &name, const std::string &passwordHash, const std::string &email,
            const std::string &phone)
-      : _login(login), _passwordHash(passwordHash), _userName(name),
-        _email(email), _phone(phone) {};
+      : _login(login), _passwordHash(passwordHash), _userName(name), _email(email), _phone(phone){};
 };
 
 /**
@@ -136,14 +134,20 @@ public:
   bool checkLogin(const std::string &login) const;
 
   /**
+   * @brief Prints the user's chat list.
+   * @param user Shared pointer to the user whose chat list is to be printed.
+   */
+  void printChatList(const std::shared_ptr<User> &user) const;
+
+  /**
    * @brief Displays the user's data.
    * @details Prints the user's login, name, and other relevant information.
    */
   void showUserData() const;
 
   /**
-   * @brief Prints the user's chat list.
-   * @param user Shared pointer to the user whose chat list is to be printed.
+   * @brief Displays the user's data for initsysten.
+   * @details Prints the user's name, login, and password.
    */
-  void printChatList(const std::shared_ptr<User> &user) const;
+  void showUserDataInit() const;
 };

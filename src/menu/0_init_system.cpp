@@ -2,6 +2,7 @@
 #include "chat/chat.h"
 #include "exception/validation_exception.h"
 #include "message/message_content_struct.h"
+#include "system/picosha2.h"
 #include "system/system_function.h"
 #include "user/user.h"
 #include "user/user_chat_list.h"
@@ -15,6 +16,7 @@
  * @param timeStamp The timestamp of the message.
  * @param sender Shared pointer to the sender user.
  * @param _recipients Vector of shared pointers to recipient users.
+
  * @details Initializes the InitDataArray struct with message details.
  */
 InitDataArray::InitDataArray(std::string messageText, std::string timeStamp, std::shared_ptr<User> sender,
@@ -27,25 +29,56 @@ InitDataArray::InitDataArray(std::string messageText, std::string timeStamp, std
  * @details Creates users, adds them to the system, creates chat lists, and sets up two chats (one private, one group)
  * with sample messages.
  */
+
+// const std::string initUserPassword[] = {"User01", "User02", "User03", "User04", "User05",
+//                                         "User06", "User07", "User08"};
+const std::string initUserPassword[] = {"1", "1", "1", "1", "1", "1", "1", "1"};
+
+// const std::string initUserLogin[] = {"alex1980", "elena1980", "serg1980", "vit1980",
+//                                      "mar1980",  "fed1980",   "vera1980", "yak1980"};
+
+const std::string initUserLogin[] = {"a", "e", "s", "v", "m", "f", "ver", "y"};
+
 void systemInitTest(ChatSystem &_chatsystem) {
   // Создание пользователей
-  auto Alex2104_ptr = std::make_shared<User>(UserData("alex1980", "Sasha", "User01","...@gmail.com","+111"));
-  auto Elena1510_ptr = std::make_shared<User>(UserData("elena1980", "Elena", "User0","...@gmail.com","+111"));
-  auto Serg0101_ptr = std::make_shared<User>(UserData("serg1980", "Sergei", "User0","...@gmail.com","+111"));
-  auto Vit2504_ptr = std::make_shared<User>(UserData("vit1980", "Vitaliy", "User0","...@gmail.com","+111"));
-  auto mar1980_ptr = std::make_shared<User>(UserData("mar1980", "Mariya", "User0","...@gmail.com","+111"));
-  auto fed1980_ptr = std::make_shared<User>(UserData("fed1980", "Fedor", "User0","...@gmail.com","+111"));
-  auto vera1980_ptr = std::make_shared<User>(UserData("vera1980", "Vera", "User0","...@gmail.com","+111"));
-  auto yak1980_ptr = std::make_shared<User>(UserData("yak1980", "Yakov", "User0","...@gmail.com","+111"));
+  std::string passwordHash = picosha2::hash256_hex_string(initUserPassword[0]);
+  auto Alex2104_ptr = std::make_shared<User>(
+      UserData(initUserLogin[0], "Sasha", passwordHash, "...@gmail.com", "+111"));
+  passwordHash = picosha2::hash256_hex_string(initUserPassword[1]);
+  auto Elena1510_ptr = std::make_shared<User>(
+      UserData(initUserLogin[1], "Elena", passwordHash, "...@gmail.com", "+111"));
+  passwordHash = picosha2::hash256_hex_string(initUserPassword[2]);
+  auto Serg0101_ptr = std::make_shared<User>(
+      UserData(initUserLogin[2], "Sergei", passwordHash, "...@gmail.com", "+111"));
+  passwordHash = picosha2::hash256_hex_string(initUserPassword[3]);
+  auto Vit2504_ptr = std::make_shared<User>(
+      UserData(initUserLogin[3], "Vitaliy", passwordHash, "...@gmail.com", "+111"));
+  passwordHash = picosha2::hash256_hex_string(initUserPassword[4]);
+  auto mar1980_ptr = std::make_shared<User>(
+      UserData(initUserLogin[4], "Mariya", passwordHash, "...@gmail.com", "+111"));
+  passwordHash = picosha2::hash256_hex_string(initUserPassword[5]);
+  auto fed1980_ptr = std::make_shared<User>(UserData(initUserLogin[5], "Fedor", passwordHash, "...@gmail.com", "+111"));
+  passwordHash = picosha2::hash256_hex_string(initUserPassword[6]);
+  auto vera1980_ptr = std::make_shared<User>(UserData(initUserLogin[6], "Vera", passwordHash, "...@gmail.com", "+111"));
+  passwordHash = picosha2::hash256_hex_string(initUserPassword[7]);
+  auto yak1980_ptr = std::make_shared<User>(UserData(initUserLogin[7], "Yakov", passwordHash, "...@gmail.com", "+111"));
 
-  Alex2104_ptr->showUserData();
-  Elena1510_ptr->showUserData();
-  Serg0101_ptr->showUserData();
-  Vit2504_ptr->showUserData();
-  mar1980_ptr->showUserData();
-  fed1980_ptr->showUserData();
-  vera1980_ptr->showUserData();
-  yak1980_ptr->showUserData();
+  Alex2104_ptr->showUserDataInit();
+  std::cout << ", Password: " << initUserPassword[0] << std::endl;
+  Elena1510_ptr->showUserDataInit();
+  std::cout << ", Password: " << initUserPassword[1] << std::endl;
+  Serg0101_ptr->showUserDataInit();
+  std::cout << ", Password: " << initUserPassword[2] << std::endl;
+  Vit2504_ptr->showUserDataInit();
+  std::cout << ", Password: " << initUserPassword[3] << std::endl;
+  mar1980_ptr->showUserDataInit();
+  std::cout << ", Password: " << initUserPassword[4] << std::endl;
+  fed1980_ptr->showUserDataInit();
+  std::cout << ", Password: " << initUserPassword[5] << std::endl;
+  vera1980_ptr->showUserDataInit();
+  std::cout << ", Password: " << initUserPassword[6] << std::endl;
+  yak1980_ptr->showUserDataInit();
+  std::cout << ", Password: " << initUserPassword[7] << std::endl;
 
   // Добавление пользователей в систему
   _chatsystem.addUser(Alex2104_ptr);

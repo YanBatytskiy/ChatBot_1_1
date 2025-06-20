@@ -127,12 +127,12 @@ void loginMenu_2ChatList(ChatSystem &chatSystem) { // показать спис�
 
   std::cout << std::endl;
 
-  chatSystem.getActiveUser()->printChatList(chatSystem.getActiveUser()); // определяем текущего пользователя
-  std::cout << std::endl;
-
   if (chatSystem.getActiveUser()->getUserChatList()->getChatFromList().empty()) {
     std::cout << "У пользователя пока нет чатов" << std::endl;
     return;
+  } else {
+    chatSystem.getActiveUser()->printChatList(chatSystem.getActiveUser()); // определяем текущего пользователя
+    std::cout << std::endl;
   }
 
   std::string userChoice;

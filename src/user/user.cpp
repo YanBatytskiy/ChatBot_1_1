@@ -24,9 +24,7 @@ User::User(const UserData &userData) : _userData(userData) {}
  * @brief Assigns a chat list to the user.
  * @param userChats Shared pointer to the user's chat list.
  */
-void User::createChatList(const std::shared_ptr<UserChatList> &userChats) {
-  _userChats = userChats;
-}
+void User::createChatList(const std::shared_ptr<UserChatList> &userChats) { _userChats = userChats; }
 
 /**
  * @brief Gets the user's login.
@@ -38,7 +36,7 @@ std::string User::getLogin() const { return _userData._login; }
  * @brief Gets the user's display name.
  * @return The user's display name string.
  */
-std::string User::getUserName() const { return getUserName(); }
+std::string User::getUserName() const { return _userData._userName; }
 
 /**
  * @brief Gets the user's passwordHash.
@@ -62,9 +60,7 @@ std::string User::getPhone() const { return _userData._phone; };
  * @brief Gets the user's chat list.
  * @return Shared pointer to the user's chat list.
  */
-std::shared_ptr<UserChatList> User::getUserChatList() const {
-  return _userChats;
-}
+std::shared_ptr<UserChatList> User::getUserChatList() const { return _userChats; }
 
 /**
  * @brief Sets the user's login.
@@ -76,17 +72,13 @@ void User::setLogin(const std::string &login) { _userData._login = login; }
  * @brief Sets the user's display name.
  * @param userName The new display name string.
  */
-void User::setUserName(const std::string &userName) {
-  getUserName() = userName;
-}
+void User::setUserName(const std::string &userName) { getUserName() = userName; }
 
 /**
  * @brief Sets the user's passwordHash.
  * @param passwordHash The new passwordHash string.
  */
-void User::setPassword(const std::string &passwordHash) {
-  _userData._passwordHash = passwordHash;
-}
+void User::setPassword(const std::string &passwordHash) { _userData._passwordHash = passwordHash; }
 
 /**
  * @brief Sets the user's email.
@@ -105,26 +97,29 @@ void User::setPhone(const std::string &phone) { _userData._phone = phone; };
  * @param passwordHash The passwordHash to check.
  * @return True if the passwordHash matches, false otherwise.
  */
-bool User::checkPassword(const std::string &passwordHash) const {
-  return (passwordHash == _userData._passwordHash);
-}
+bool User::checkPassword(const std::string &passwordHash) const { return (passwordHash == getPassword()); }
 
 /**
  * @brief Checks if the provided login matches the user's login.
  * @param login The login to check.
  * @return True if the login matches, false otherwise.
  */
-bool User::checkLogin(const std::string &login) const {
-  return (_userData._login == login);
-}
+bool User::checkLogin(const std::string &login) const { return (getLogin() == login); }
 
 /**
  * @brief Displays the user's data.
  * @details Prints the user's name, login, and passwordHash.
  */
 void User::showUserData() const {
-  std::cout << "Name: " << getUserName() << ", Login: " << _userData._login
-            << ", Password: " << _userData._passwordHash << std::endl;
+  std::cout << "Name: " << getUserName() << ", Login: " << getLogin() << std::endl;
+}
+
+/**
+ * @brief Displays the user's data for init.
+ * @details Prints the user's name, login, and passwordHash.
+ */
+void User::showUserDataInit() const {
+  std::cout << "Name: " << getUserName() << ", Login: " << getLogin();
 }
 
 /**
@@ -146,14 +141,12 @@ void User::printChatList(const std::shared_ptr<User> &user) const {
   const auto &chatList = user->getUserChatList()->getChatFromList();
 
   if (chatList.empty()) {
-    std::cout << "У пользователя " << user->getUserName() << " нет чатов."
-              << std::endl;
+    std::cout << "У пользователя " << user->getUserName() << " нет чатов." << std::endl;
     return;
   }
   std::cout << std::endl
-            << "Всего чатов = " << user->getUserChatList()->getChatCount()
-            << ". Список чатов пользователя " << user->getUserName() << " :"
-            << std::endl;
+            << "Всего чатов = " << user->getUserChatList()->getChatCount() << ". Список чатов пользователя "
+            << user->getUserName() << " :" << std::endl;
 
   std::size_t index = 1;
   std::size_t activeUserMessageCount = 0;
@@ -187,12 +180,10 @@ void User::printChatList(const std::shared_ptr<User> &user) const {
         auto user_ptr = participant._user.lock();
         if (user_ptr) {
           if (user_ptr != user) {
-            std::cout << user_ptr->getUserName() << "/" << user_ptr->getLogin()
-                      << "; ";
+            std::cout << user_ptr->getUserName() << "/" << user_ptr->getLogin() << "; ";
           } else {
             try {
-              activeUserMessageCount =
-                  chat_ptr->getLastReadMessageIndex(user_ptr);
+              activeUserMessageCount = chat_ptr->getLastReadMessageIndex(user_ptr);
             } // try
             catch (const UserNotInListException &) {
               activeUserMessageCount = 0;
@@ -208,8 +199,7 @@ void User::printChatList(const std::shared_ptr<User> &user) const {
 
       // вывод на печать количества новых сообщений
       if (totalMessages > activeUserMessageCount)
-        std::cout << "новых сообщений - "
-                  << totalMessages - activeUserMessageCount;
+        std::cout << "новых сообщений - " << totalMessages - activeUserMessageCount;
       std::cout << std::endl;
 
     } // if auto chat_ptr

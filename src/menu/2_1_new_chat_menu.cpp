@@ -1,4 +1,4 @@
-#include "menu/2_1_new_chat_menu.h"
+#include "2_1_new_chat_menu.h"
 #include "chat/chat.h"
 #include "exception/login_exception.h"
 #include "exception/validation_exception.h"
@@ -10,6 +10,35 @@
 #include <memory>
 #include <string>
 #include <vector>
+
+/**
+ * @brief check char for ansii.
+ * @param inputData string for check.
+ */
+void validateAsciiAlnumOnly(const std::string &inputData) {
+          std::size_t utf8SymbolCount = 0;
+        for (int i = 0; i < inputData.size();) {
+
+          std::size_t charLen = getUtf8CharLen(static_cast<unsigned char>(inputData[i]));
+
+          if (i + charLen > inputData.size())
+            throw InvalidCharacterException("");
+
+          std::string utf8Char = inputData.substr(i, charLen);
+
+          ++utf8SymbolCount;
+
+          if (charLen == 1) {
+            char ch = utf8Char[0];
+            if (!std::isdigit(ch) && !std::isalpha(ch))
+              throw InvalidCharacterException(utf8Char);
+          } // if
+          else
+            throw InvalidCharacterException(utf8Char);
+
+          i += charLen;
+        }
+};
 
 /**
  * @brief Creates a new chat by selecting participants.
@@ -57,9 +86,7 @@ void LoginMenu_1NewChatMakeParticipants(ChatSystem &chatSystem, std::shared_ptr<
         }
 
         // проверяем на наличие недопустимых символов
-        for (const auto &exactChar : inputData)
-          if (!std::isdigit(exactChar) && !std::isalpha(exactChar))
-            throw InvalidCharacterException(exactChar);
+        validateAsciiAlnumOnly(inputData);
 
         // найти пользователей
         std::vector<std::shared_ptr<User>> users;
@@ -155,9 +182,7 @@ void LoginMenu_1NewChatMakeParticipants(ChatSystem &chatSystem, std::shared_ptr<
         }
 
         // проверяем на наличие недопустимых символов
-        for (const auto &exactChar : inputData)
-          if (!std::isdigit(exactChar) && static_cast<unsigned char>(exactChar) != ',')
-            throw InvalidCharacterException(exactChar);
+        validateAsciiAlnumOnly(inputData);
 
         // проверки
         // std::cout << activeUserIndex << std::endl;
@@ -204,15 +229,15 @@ void LoginMenu_1NewChatMakeParticipants(ChatSystem &chatSystem, std::shared_ptr<
         } while (!inputData.empty());
 
         // проверки временная
-        std::cout << std::endl;
-        for (const auto &rep : recipientIndex)
-          std::cout << rep << ", ";
+        // std::cout << std::endl;
+        // for (const auto &rep : recipientIndex)
+        //   std::cout << rep << ", ";
 
         // проверки временная
-        std::cout << std::endl;
-        for (std::size_t i = 1; i <= recipientIndex.size(); ++i) {
-          std::cout << chatSystem.getUsers()[recipientIndex[i - 1]]->getLogin() << ", ";
-        }
+        // std::cout << std::endl;
+        // for (std::size_t i = 1; i <= recipientIndex.size(); ++i) {
+        //   std::cout << chatSystem.getUsers()[recipientIndex[i - 1]]->getLogin() << ", ";
+        // }
 
         // заполняем вектор участников
         for (const auto &recipient : recipientIndex) {
