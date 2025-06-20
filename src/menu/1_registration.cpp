@@ -25,6 +25,7 @@
 bool checkNewDataInputForLimits(const std::string &inputData,
                                 std::size_t contentLengthMin,
                                 std::size_t contentLengthMax, bool isPassword) {
+
   bool isCapital = false, isNumber = false;
   std::size_t utf8SymbolCount = 0;
 
@@ -33,24 +34,23 @@ bool checkNewDataInputForLimits(const std::string &inputData,
     std::size_t charLen =
         getUtf8CharLen(static_cast<unsigned char>(inputData[i]));
 
+    if (i + charLen > inputData.size())
+      throw InvalidCharacterException("");
+
     std::string utf8Char = inputData.substr(i, charLen);
 
     ++utf8SymbolCount;
 
-    int alphabetIndex = getCharIndex(utf8Char);
-
-    if (alphabetIndex == -1)
-      throw InvalidCharacterException(utf8Char);
-
     if (charLen == 1) {
       char ch = utf8Char[0];
-
       if (std::isdigit(ch))
         isNumber = true;
 
       if (std::isupper(ch))
         isCapital = true;
     } // if
+    else
+      throw InvalidCharacterException("");
 
     i += charLen;
 
