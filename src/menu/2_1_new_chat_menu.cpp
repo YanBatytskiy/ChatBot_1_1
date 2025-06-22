@@ -12,35 +12,6 @@
 #include <vector>
 
 /**
- * @brief check char for ansii.
- * @param inputData string for check.
- */
-void validateAsciiAlnumOnly(const std::string &inputData) {
-          std::size_t utf8SymbolCount = 0;
-        for (int i = 0; i < inputData.size();) {
-
-          std::size_t charLen = getUtf8CharLen(static_cast<unsigned char>(inputData[i]));
-
-          if (i + charLen > inputData.size())
-            throw InvalidCharacterException("");
-
-          std::string utf8Char = inputData.substr(i, charLen);
-
-          ++utf8SymbolCount;
-
-          if (charLen == 1) {
-            char ch = utf8Char[0];
-            if (!std::isdigit(ch) && !std::isalpha(ch))
-              throw InvalidCharacterException(utf8Char);
-          } // if
-          else
-            throw InvalidCharacterException(utf8Char);
-
-          i += charLen;
-        }
-};
-
-/**
  * @brief Creates a new chat by selecting participants.
  * @param chatSystem Reference to the chat system.
  * @param chat Shared pointer to the chat being created.
@@ -86,7 +57,28 @@ void LoginMenu_1NewChatMakeParticipants(ChatSystem &chatSystem, std::shared_ptr<
         }
 
         // проверяем на наличие недопустимых символов
-        validateAsciiAlnumOnly(inputData);
+        std::size_t utf8SymbolCount = 0;
+        for (int i = 0; i < inputData.size();) {
+
+          std::size_t charLen = getUtf8CharLen(static_cast<unsigned char>(inputData[i]));
+
+          if (i + charLen > inputData.size())
+            throw InvalidCharacterException("");
+
+          std::string utf8Char = inputData.substr(i, charLen);
+
+          ++utf8SymbolCount;
+
+          if (charLen == 1) {
+            char ch = utf8Char[0];
+            if (!std::isdigit(ch) && !std::isalpha(ch))
+              throw InvalidCharacterException(utf8Char);
+          } // if
+          else
+            throw InvalidCharacterException(utf8Char);
+
+          i += charLen;
+        }
 
         // найти пользователей
         std::vector<std::shared_ptr<User>> users;
@@ -182,7 +174,28 @@ void LoginMenu_1NewChatMakeParticipants(ChatSystem &chatSystem, std::shared_ptr<
         }
 
         // проверяем на наличие недопустимых символов
-        validateAsciiAlnumOnly(inputData);
+        std::size_t utf8SymbolCount = 0;
+        for (int i = 0; i < inputData.size();) {
+
+          std::size_t charLen = getUtf8CharLen(static_cast<unsigned char>(inputData[i]));
+
+          if (i + charLen > inputData.size())
+            throw InvalidCharacterException("");
+
+          std::string utf8Char = inputData.substr(i, charLen);
+
+          ++utf8SymbolCount;
+
+          if (charLen == 1) {
+            char ch = utf8Char[0];
+            if (!std::isdigit(ch) && static_cast<unsigned char>(ch) != ',')
+              throw InvalidCharacterException(utf8Char);
+          } // if
+          else
+            throw InvalidCharacterException(utf8Char);
+
+          i += charLen;
+        }
 
         // проверки
         // std::cout << activeUserIndex << std::endl;
