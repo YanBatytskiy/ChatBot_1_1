@@ -13,7 +13,6 @@ class UserChatList {
 private:
   std::weak_ptr<User> _owner;                 ///< Owner of the chat list (user).
   std::vector<std::weak_ptr<Chat>> _chatList; ///< List of user's chats.
-  std::size_t _chatCount;                     ///< Number of chats in the list.
 
 public:
   /**
@@ -28,12 +27,6 @@ public:
   ~UserChatList() = default;
 
   /**
-   * @brief Gets the number of chats in the list.
-   * @return The count of chats.
-   */
-  std::size_t getChatCount() const;
-
-  /**
    * @brief Gets the owner of the chat list.
    * @return Weak pointer to the user who owns the chat list.
    */
@@ -46,16 +39,16 @@ public:
   std::vector<std::weak_ptr<Chat>> getChatFromList() const;
 
   /**
-   * @brief Sets the count of chats in the list.
-   * @param chatCount The number of chats to set.
-   */
-  void setChatCount(std::size_t chatCount);
-
-  /**
    * @brief Adds a chat to the user's chat list.
    * @param chat Weak pointer to the chat to add.
    */
   void addChat(const std::weak_ptr<Chat> &chat);
+
+  /**
+   * @brief Delete a chat to the user's chat list.
+   * @param chat Weak pointer to the chat to add.
+   */
+  void deleteChatFromList(const std::weak_ptr<Chat> &chat);
 
   // --- Дополнительные методы ---
 };

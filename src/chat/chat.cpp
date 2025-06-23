@@ -38,7 +38,7 @@ void Chat::addMessage(const std::shared_ptr<Message> &message) { _messages.push_
  * @details Finds the participant and updates their deletedFromChat status.
  * Prints error if user is not found.
  */
-void Chat::setDeletedFromChat(const std::shared_ptr<User> &user, const bool deletedFromChat) {
+void Chat::setDeletedFromChat(const std::shared_ptr<User> &user) {
   auto &participants = _participants;
   auto it = std::find_if(participants.begin(), participants.end(), [&user](const Participant &participant) {
     auto user_ptr = participant._user.lock();
@@ -46,7 +46,7 @@ void Chat::setDeletedFromChat(const std::shared_ptr<User> &user, const bool dele
   });
   try {
     if (it != participants.end())
-      it->_deletedFromChat = deletedFromChat;
+      it->_deletedFromChat = true;
     else
       throw UserNotInListException();
   } catch (const ValidationException &ex) {

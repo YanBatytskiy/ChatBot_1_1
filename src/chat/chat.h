@@ -66,7 +66,7 @@ public:
    * @param deletedFromChat Boolean indicating if the user is deleted from the
    * chat.
    */
-  void setDeletedFromChat(const std::shared_ptr<User> &user, const bool deletedFromChat);
+  void setDeletedFromChat(const std::shared_ptr<User> &user);
 
   /**
    * @brief Retrieves the chatId.

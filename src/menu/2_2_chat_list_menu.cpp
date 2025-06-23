@@ -27,33 +27,7 @@ void loginMenu_2EditChat(ChatSystem &chatSystem, const std::shared_ptr<Chat> &ch
   while (exit) {
     auto messageCount = chat->getMessages().size();
 
-    // получаем количество неппрочитанных
-    // auto unReadCount = chat->getLastReadMessageIndex(chatSystem.getActiveUser());
-
-    // std::cout << std::endl
-    //           << "Вот твой чат, GUID: " << chat->getChatId() << ". В нем всего " << messageCount << " сообщения(ий).
-    //           ";
-    // std::cout << "\033[32m"; // red
-    // std::cout << "Из них непрочитанных - " << messageCount - unReadCount << std::endl;
-    // std::cout << "\033[0m";
-
-    // // выводим список участников чата кроме активного юзера
-    // std::cout << std::endl << "Участники чата Имя/Логин: " << std::endl;
-    // // перебираем участников чата
-    // for (const auto &participant : chat->getParticipants()) {
-    //   auto user_ptr = participant._user.lock();
-    //   if (user_ptr) {
-    //     if (user_ptr != chatSystem.getActiveUser()) {
-    //       std::cout << user_ptr->getUserName() << "/" << user_ptr->getUserName() << "; ";
-    //     };
-    //   } else {
-    //     std::cout << "удал. пользоыватель";
-    //   }
-    // }
-
-    // std::cout << std::endl;
-
-    chat->printChat( chatSystem.getActiveUser());
+    chat->printChat(chatSystem.getActiveUser());
     chat->updateLastReadMessageIndex(chatSystem.getActiveUser(), messageCount);
     std::cout << std::endl;
 
@@ -62,7 +36,7 @@ void loginMenu_2EditChat(ChatSystem &chatSystem, const std::shared_ptr<Chat> &ch
     std::cout << "1 - написать сообщение" << std::endl;
     std::cout << "2 - удалить последнее отправленное сообщение - Under constraction" << std::endl;
     std::cout << "3 - очистить чат (удвлить все сообщения) - Under constraction" << std::endl;
-    std::cout << "4 - выйти из чата - Under constraction" << std::endl;
+    std::cout << "4 - выйти из чата" << std::endl;
     std::cout << "5 - поиск сообщений внутри чата - Under constraction" << std::endl;
     std::cout << "0 - Выйти в предыдущее меню" << std::endl;
 
@@ -100,9 +74,17 @@ void loginMenu_2EditChat(ChatSystem &chatSystem, const std::shared_ptr<Chat> &ch
         case 3:
           std::cout << "3 - очистить чат (удвлить все сообщения) - Under constraction" << std::endl;
           break; // case 3
-        case 4:
-          std::cout << "4 - выйти из чата - Under constraction" << std::endl;
+        case 4: {
+          chat->setDeletedFromChat(chatSystem.getActiveUser());
+
+          auto chatList = chatSystem.getActiveUser()->getUserChatList();
+          chatList->deleteChatFromList(chat);          
+
+          if (chat.use_count() == 0)
+
+          exit2 = false;
           break; // case 4
+        }
         case 5:
           std::cout << "5 - поиск сообщений внутри чата - Under constraction" << std::endl;
           break; // case 5
