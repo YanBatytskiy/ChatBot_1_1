@@ -24,6 +24,7 @@ private:
   std::vector<std::shared_ptr<IMessageContent>> _content; ///< Vector of message content.
   std::weak_ptr<User> _sender;                            ///< Sender of the message.
   std::string _time_stamp;                                ///< Timestamp of the message (to be implemented).
+  std::size_t _messageId;
 
 public:
   /**
@@ -33,12 +34,17 @@ public:
    * @param timeStamp Timestamp of the message.
    */
   Message(const std::vector<std::shared_ptr<IMessageContent>> &content, const std::weak_ptr<User> &sender,
-          const std::string &timeStamp);
+          const std::string &timeStamp, std::size_t messageId);
 
   /**
    * @brief Default destructor.
    */
   ~Message() override = default; // destructor
+
+  /**
+   * @brief Retrieves the messageId.
+   */
+  const std::size_t &getMessagetId() const;
 
   /**
    * @brief Gets the content of the message.
@@ -63,6 +69,11 @@ public:
    * @param content Shared pointer to the content to be added.
    */
   void addContent(const std::shared_ptr<IMessageContent> &content);
+
+  /**
+   * @brief Adds messageId to the message.
+   */
+  void addMessageId(std::size_t messageId);
 
   /**
    * @brief Prints the message for a specific user.

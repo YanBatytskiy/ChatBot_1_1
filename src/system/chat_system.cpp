@@ -5,48 +5,47 @@
 /**
  * @brief Default constructor for ChatSystem.
  */
-ChatSystem::ChatSystem(){};
+ChatSystem::ChatSystem(){}
+
+std::size_t ChatSystem::getNewChatId() { return _idChatManager.getNextChatId(); }
+
+std::size_t ChatSystem::getNewMessageId() { return _idMessageManager.getNextMessageId(); }
 
 /**
  * @brief Gets the list of users.
  * @return Const reference to the vector of users.
  */
-const std::vector<std::shared_ptr<User>> &ChatSystem::getUsers() const {
-  return _users;
-}
+const std::vector<std::shared_ptr<User>> &ChatSystem::getUsers() const { return _users; }
 
 /**
  * @brief Gets the list of chats.
  * @return Const reference to the vector of chats.
  */
-const std::vector<std::shared_ptr<Chat>> &ChatSystem::getChats() const {
-  return _chats;
-}
+const std::vector<std::shared_ptr<Chat>> &ChatSystem::getChats() const { return _chats; }
 
 /**
  * @brief Gets the active user.
  * @return Const reference to the active user.
  */
-const std::shared_ptr<User> &ChatSystem::getActiveUser() const {
-  return _activeUser;
-}
+const std::shared_ptr<User> &ChatSystem::getActiveUser() const { return _activeUser; }
 
 /**
  * @brief Gets the login user map.
  * @return Const reference to the unordered map.
  */
-const std::unordered_map<std::string, std::shared_ptr<User>> &
-ChatSystem::getLoginUserMap() const {
+const std::unordered_map<std::string, std::shared_ptr<User>> &ChatSystem::getLoginUserMap() const {
   return _loginUserMap;
 };
+
+void ChatSystem::releaseChatId(std::size_t chatId) { _idChatManager.releaseChatId(chatId); };
+
+void ChatSystem::releaseMessageId(std::size_t messageId) { _idMessageManager.releaseMessageId(messageId); };
 
 /**
  * @brief Sets the active user.
  * @param user Shared pointer to the user to set as active.
  */
-void ChatSystem::setActiveUser(const std::shared_ptr<User> &user) {
-  _activeUser = user;
-}
+void ChatSystem::setActiveUser(const std::shared_ptr<User> &user) { _activeUser = user; }
 
 /**
  * @brief Adds a user to the system.
@@ -61,9 +60,7 @@ void ChatSystem::addUser(const std::shared_ptr<User> &user) {
  * @brief Adds a chat to the system.
  * @param chat Shared pointer to the chat to add.
  */
-void ChatSystem::addChat(const std::shared_ptr<Chat> &chat) {
-  _chats.push_back(chat);
-}
+void ChatSystem::addChat(const std::shared_ptr<Chat> &chat) { _chats.push_back(chat); }
 
 /**
  * @brief Removes a user from the system (not implemented).
@@ -88,8 +85,7 @@ void ChatSystem::eraseChat(const std::shared_ptr<Chat> &chat) {
  * @details Prints user names and logins, excluding the active user if
  * showActiveUser is false.
  */
-std::size_t ChatSystem::showUserList(
-    const bool showActiveUser) { // вывод на экрын списка пользователей
+std::size_t ChatSystem::showUserList(const bool showActiveUser) { // вывод на экрын списка пользователей
   std::cout << "Список пользователей:" << std::endl;
   size_t index = 1;
   size_t returnIndex = std::string::npos;
@@ -100,8 +96,7 @@ std::size_t ChatSystem::showUserList(
 
     if (!showActiveUser && user == _activeUser)
       continue;
-    std::cout << index << ".  Имя - " << user->getUserName() << ", логин - "
-              << user->getLogin() << ";" << std::endl;
+    std::cout << index << ".  Имя - " << user->getUserName() << ", логин - " << user->getLogin() << ";" << std::endl;
     ++index;
   }
   return returnIndex;
@@ -114,20 +109,21 @@ std::size_t ChatSystem::showUserList(
  * @details Performs case-insensitive search for users, excluding the active
  * user.
  */
-void ChatSystem::findUser(std::vector<std::shared_ptr<User>> &users,
-                          const std::string &textToFind) { // поиск пользователя
+void ChatSystem::findUserByTextPart(std::vector<std::shared_ptr<User>> &foundUsers,
+                                    const std::string &textToFind) { // поиск пользователя
 
   std::string textToFindLower = TextToLower(textToFind);
 
   // перебираем всех пользователей в векторе
   for (const auto &user : _users) {
 
+    if (user == _activeUser)
+      continue;
+
     std::string LowerLogin = TextToLower(user->getLogin());
     std::string LowerName = TextToLower(user->getUserName());
 
-    if (user != _activeUser)
-      if (LowerLogin.find(textToFindLower) != std::string::npos ||
-          LowerName.find(textToFindLower) != std::string::npos)
-        users.push_back(user);
+    if (LowerLogin.find(textToFindLower) != std::string::npos || LowerName.find(textToFindLower) != std::string::npos)
+      foundUsers.push_back(user);
   }
 }

@@ -173,7 +173,7 @@ void addMessageToChat(const InitDataArray &initDataArray,
                              "создано. addMessageToChat");
     } else {
       Message message(iMessageContent, initDataArray._sender,
-                      initDataArray._timeStamp);
+                      initDataArray._timeStamp, initDataArray._messageId);
 
       chat->addMessage(std::make_shared<Message>(message));
 
@@ -216,7 +216,7 @@ bool inputNewMessage(ChatSystem &chatSystem, std::shared_ptr<Chat> chat) {
       }
 
       InitDataArray newMessageStruct(inputData, getCurrentDateTime(),
-                                     chatSystem.getActiveUser(), recipients);
+                                     chatSystem.getActiveUser(), recipients, chatSystem.getNewMessageId());
       addMessageToChat(newMessageStruct, chat);
       return true;
     } // try

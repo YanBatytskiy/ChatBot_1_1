@@ -82,7 +82,7 @@ void LoginMenu_1NewChatMakeParticipants(ChatSystem &chatSystem, std::shared_ptr<
 
         // найти пользователей
         std::vector<std::shared_ptr<User>> users;
-        chatSystem.findUser(users, inputData);
+        chatSystem.findUserByTextPart(users, inputData);
 
         if (users.size() == 0)
           throw UserNotFoundException();

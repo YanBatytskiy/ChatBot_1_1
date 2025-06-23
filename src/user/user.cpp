@@ -110,17 +110,13 @@ bool User::checkLogin(const std::string &login) const { return (getLogin() == lo
  * @brief Displays the user's data.
  * @details Prints the user's name, login, and passwordHash.
  */
-void User::showUserData() const {
-  std::cout << "Name: " << getUserName() << ", Login: " << getLogin() << std::endl;
-}
+void User::showUserData() const { std::cout << "Name: " << getUserName() << ", Login: " << getLogin() << std::endl; }
 
 /**
  * @brief Displays the user's data for init.
  * @details Prints the user's name, login, and passwordHash.
  */
-void User::showUserDataInit() const {
-  std::cout << "Name: " << getUserName() << ", Login: " << getLogin();
-}
+void User::showUserDataInit() const { std::cout << "Name: " << getUserName() << ", Login: " << getLogin(); }
 
 /**
  * @brief Prints the user's chat list.
@@ -162,7 +158,7 @@ void User::printChatList(const std::shared_ptr<User> &user) const {
     if (auto chat_ptr = weakChat.lock()) {
 
       std::cout << std::endl;
-      std::cout << index << ". ";
+      std::cout << index << ". GUID чата: " << chat_ptr->getChatId() << ", "; 
 
       const auto &messages = chat_ptr->getMessages();
       try {

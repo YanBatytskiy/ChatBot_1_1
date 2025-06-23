@@ -1,5 +1,6 @@
 #pragma once
 #include "chat/chat.h"
+#include "system/id_generator.h"
 #include "user/user.h"
 #include <cstddef>
 #include <memory>
@@ -14,6 +15,8 @@ private:
   std::vector<std::shared_ptr<Chat>> _chats; ///< List of chats in the system.
   std::shared_ptr<User> _activeUser;         ///< Current active user.
   std::unordered_map<std::string, std::shared_ptr<User>> _loginUserMap;
+  idChatManager _idChatManager;
+  idMessageManager _idMessageManager;
 
 public:
   /**
@@ -25,6 +28,10 @@ public:
    * @brief Default destructor.
    */
   ~ChatSystem() = default;
+
+  std::size_t getNewChatId();
+
+  std::size_t getNewMessageId();
 
   /**
    * @brief Gets the list of users.
@@ -48,8 +55,11 @@ public:
    * @brief Gets the login user map.
    * @return Const reference to the unordered map.
    */
-  const std::unordered_map<std::string, std::shared_ptr<User>> &
-  getLoginUserMap() const;
+  const std::unordered_map<std::string, std::shared_ptr<User>> &getLoginUserMap() const;
+
+  void releaseChatId(std::size_t chatId);
+
+  void releaseMessageId(std::size_t messageId);
 
   /**
    * @brief Sets the active user.
@@ -86,14 +96,13 @@ public:
    * @param showActiveUser True to include the active user in the list.
    * @return The number of users displayed.
    */
-  std::size_t showUserList(
-      const bool showActiveUser); // вывод на экрын списка пользователей
+  std::size_t showUserList(const bool showActiveUser); // вывод на экрын списка пользователей
 
   /**
    * @brief Finds users matching a search string.
    * @param users Vector to store found users.
    * @param textToFind Search string to match against user names or logins.
    */
-  void findUser(std::vector<std::shared_ptr<User>> &users,
-                const std::string &textToFind); // поиск пользователя
+  void findUserByTextPart(std::vector<std::shared_ptr<User>> &users,
+                          const std::string &textToFind); // поиск пользователя
 };

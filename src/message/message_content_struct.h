@@ -12,6 +12,7 @@ struct InitDataArray {
   std::string _timeStamp;                         ///< Timestamp of the message.
   std::shared_ptr<User> _sender;                  ///< Sender of the message.
   std::vector<std::shared_ptr<User>> _recipients; ///< List of message recipients.
+  std::size_t _messageId;
 
   /**
    * @brief Constructor for InitDataArray.
@@ -21,7 +22,7 @@ struct InitDataArray {
    * @param _recipients Vector of shared pointers to recipient users.
    */
   InitDataArray(std::string messageText, std::string timeStamp, std::shared_ptr<User> sender,
-                std::vector<std::shared_ptr<User>> _recipients);
+                std::vector<std::shared_ptr<User>> _recipients, std::size_t messageId);
 
   /**
    * @brief Default destructor.
