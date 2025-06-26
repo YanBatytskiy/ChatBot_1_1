@@ -5,6 +5,7 @@
 .vscode/
 .cache/
 .idea/
+.out/
 
 # 🏗️ Файлы сборки CMake
 build/
