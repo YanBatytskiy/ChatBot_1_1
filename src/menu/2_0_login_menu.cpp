@@ -3,7 +3,7 @@
 #include "menu/2_1_new_chat_menu.h"
 #include "menu/2_2_chat_list_menu.h"
 #include "menu/2_4_user_profile.h"
-#include "system/chat_system.h"
+#include "client-server/chat_system.h"
 #include "system/system_function.h"
 #include <cctype>
 #include <iostream>

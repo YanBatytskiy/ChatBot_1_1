@@ -1,10 +1,10 @@
-#include "system/system_function.h"
+#include "system_function.h"
 #include "chat/chat.h"
 #include "exception/validation_exception.h"
 #include "menu/0_init_system.h"
 #include "message/message_content_struct.h"
-#include "system/chat_system.h"
-#include "system/date_time_utils.h"
+#include "client-server/chat_system.h"
+#include "date_time_utils.h"
 #include <algorithm>
 #include <ctime>
 #include <iostream>

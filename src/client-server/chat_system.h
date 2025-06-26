@@ -1,5 +1,6 @@
 #pragma once
 #include "chat/chat.h"
+#include "system/dto_struct.h"
 #include "system/id_generator.h"
 #include "user/user.h"
 #include <cstddef>
@@ -15,6 +16,7 @@ private:
   std::vector<std::shared_ptr<Chat>> _chats; ///< List of chats in the system.
   std::shared_ptr<User> _activeUser;         ///< Current active user.
   std::unordered_map<std::string, std::shared_ptr<User>> _loginUserMap;
+  std::unordered_map<std::size_t, std::shared_ptr<Chat>> _chatIdChatMap;
   idChatManager _idChatManager;
   idMessageManager _idMessageManager;
 
@@ -33,8 +35,10 @@ public:
 
   std::size_t getNewMessageId();
 
+  std::shared_ptr<Chat> getChatById(std::size_t chatId) const;
+
   /**
-   * @brief Gets the list of users.
+s thChatMessagesf users.
    * @return Const reference to the vector of users.
    */
   const std::vector<std::shared_ptr<User>> &getUsers() const;

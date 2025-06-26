@@ -1,5 +1,5 @@
 #pragma once
-#include "system/chat_system.h"
+#include "client-server/chat_system.h"
 
 /**
  * @brief Delete last message of the specific chat.

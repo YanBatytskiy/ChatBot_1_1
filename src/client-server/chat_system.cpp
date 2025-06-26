@@ -1,15 +1,25 @@
 #include "chat_system.h"
-#include "system_function.h"
+#include "chat/chat.h"
+#include "client-server/client_session.h"
+#include "system/system_function.h"
 #include <iostream>
+#include <memory>
 
 /**
  * @brief Default constructor for ChatSystem.
  */
-ChatSystem::ChatSystem(){}
+ChatSystem::ChatSystem() {}
 
 std::size_t ChatSystem::getNewChatId() { return _idChatManager.getNextChatId(); }
 
 std::size_t ChatSystem::getNewMessageId() { return _idMessageManager.getNextMessageId(); }
+
+std::shared_ptr<Chat> ChatSystem::getChatById(std::size_t chatId) const {
+  auto it = _chatIdChatMap.find(chatId);
+  if (it != _chatIdChatMap.end())
+    return it->second;
+  return nullptr;
+}
 
 /**
  * @brief Gets the list of users.
@@ -37,7 +47,7 @@ const std::unordered_map<std::string, std::shared_ptr<User>> &ChatSystem::getLog
   return _loginUserMap;
 };
 
-void ChatSystem::releaseChatId(std::size_t chatId) { _idChatManager.releaseChatId(chatId); };
+void ChatSystem::releaseChatId(std::size_t chatId) { _idChatManager.releaseChatId(chatId); }
 
 void ChatSystem::releaseMessageId(std::size_t messageId) { _idMessageManager.releaseMessageId(messageId); };
 
@@ -60,7 +70,12 @@ void ChatSystem::addUser(const std::shared_ptr<User> &user) {
  * @brief Adds a chat to the system.
  * @param chat Shared pointer to the chat to add.
  */
-void ChatSystem::addChat(const std::shared_ptr<Chat> &chat) { _chats.push_back(chat); }
+void ChatSystem::addChat(const std::shared_ptr<Chat> &chat) {
+  _chats.push_back(chat);
+  std::size_t newChatId = getNewChatId();
+  chat->addChatId(newChatId);
+  _chatIdChatMap.insert({newChatId, chat});
+}
 
 /**
  * @brief Removes a user from the system (not implemented).

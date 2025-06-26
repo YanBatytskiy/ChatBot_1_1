@@ -26,7 +26,6 @@ std::vector<std::weak_ptr<Chat>> UserChatList::getChatFromList() const { return 
  */
 void UserChatList::addChat(const std::weak_ptr<Chat> &chat) {
   _chatList.push_back(chat);
-  ++_chatCount;
 }
 
 void UserChatList::deleteChatFromList(const std::weak_ptr<Chat> &chat) {

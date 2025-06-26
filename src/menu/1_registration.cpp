@@ -1,7 +1,7 @@
 #include "1_registration.h"
 #include "exception/login_exception.h"
 #include "exception/validation_exception.h"
-#include "system/chat_system.h"
+#include "client-server/chat_system.h"
 #include "system/picosha2.h"
 #include "system/system_function.h"
 #include "user/user.h"

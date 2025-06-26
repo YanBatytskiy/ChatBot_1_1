@@ -141,7 +141,7 @@ void User::printChatList(const std::shared_ptr<User> &user) const {
     return;
   }
   std::cout << std::endl
-            << "Всего чатов = " << user->getUserChatList()->getChatCount() << ". Список чатов пользователя "
+            << "Всего чатов = " << user->getUserChatList()->getChatFromList().size() << ". Список чатов пользователя "
             << user->getUserName() << " :" << std::endl;
 
   std::size_t index = 1;
@@ -158,7 +158,7 @@ void User::printChatList(const std::shared_ptr<User> &user) const {
     if (auto chat_ptr = weakChat.lock()) {
 
       std::cout << std::endl;
-      std::cout << index << ". GUID чата: " << chat_ptr->getChatId() << ", "; 
+      std::cout << index << ". GUID чата: " << chat_ptr->getChatId() << ", ";
 
       const auto &messages = chat_ptr->getMessages();
       try {

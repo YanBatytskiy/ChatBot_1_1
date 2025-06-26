@@ -1,5 +1,5 @@
+#include "client-server/chat_system.h"
 #include "exception/validation_exception.h"
-#include "system/chat_system.h"
 #include "system/system_function.h"
 #include "user/user_chat_list.h"
 #include <iostream>
@@ -36,7 +36,7 @@ void loginMenu_2EditChat(ChatSystem &chatSystem, const std::shared_ptr<Chat> &ch
     std::cout << "1 - написать сообщение" << std::endl;
     std::cout << "2 - удалить последнее отправленное сообщение - Under constraction" << std::endl;
     std::cout << "3 - очистить чат (удвлить все сообщения) - Under constraction" << std::endl;
-    std::cout << "4 - выйти из чата" << std::endl;
+    std::cout << "4 - выйти из чата - Under constraction" << std::endl;
     std::cout << "5 - поиск сообщений внутри чата - Under constraction" << std::endl;
     std::cout << "0 - Выйти в предыдущее меню" << std::endl;
 
@@ -75,14 +75,7 @@ void loginMenu_2EditChat(ChatSystem &chatSystem, const std::shared_ptr<Chat> &ch
           std::cout << "3 - очистить чат (удвлить все сообщения) - Under constraction" << std::endl;
           break; // case 3
         case 4: {
-          chat->setDeletedFromChat(chatSystem.getActiveUser());
-
-          auto chatList = chatSystem.getActiveUser()->getUserChatList();
-          chatList->deleteChatFromList(chat);          
-
-          if (chat.use_count() == 0)
-
-          exit2 = false;
+          std::cout << "выйти из чата - Under constraction" << std::endl;
           break; // case 4
         }
         case 5:

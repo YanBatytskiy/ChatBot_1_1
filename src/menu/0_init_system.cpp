@@ -140,7 +140,7 @@ void systemInitTest(ChatSystem &_chatsystem) {
     }
   }
 
-  chat_ptr->addChatId(_chatsystem.getNewChatId());
+//   chat_ptr->addChatId(_chatsystem.getNewChatId());
   _chatsystem.addChat(chat_ptr);
 
   InitDataArray Elena_Alex1("Привет", "01-04-2025,12:00:00", Elena1510_ptr, recipients, _chatsystem.getNewMessageId());
@@ -186,7 +186,7 @@ void systemInitTest(ChatSystem &_chatsystem) {
   chat_ptr->addParticipant(mar1980_ptr);
   chat_ptr->addParticipant(yak1980_ptr);
 
-  chat_ptr->addChatId(_chatsystem.getNewChatId());
+//   chat_ptr->addChatId(_chatsystem.getNewChatId());
 
   for (const auto &chatUser : participants) {
     if (auto chatUser_ptr = chatUser.lock()) {
