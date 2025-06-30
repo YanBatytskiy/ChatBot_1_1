@@ -1,6 +1,5 @@
 #pragma once
 #include "chat/chat.h"
-#include "system/dto_struct.h"
 #include "system/id_generator.h"
 #include "user/user.h"
 #include <cstddef>
@@ -31,14 +30,27 @@ public:
    */
   ~ChatSystem() = default;
 
+  /**
+   * @brief Retrieves a new unique chat ID.
+   * @return Unique chat ID.
+   */
   std::size_t getNewChatId();
 
+  /**
+   * @brief Retrieves a new unique message ID.
+   * @return Unique message ID.
+   */
   std::size_t getNewMessageId();
 
+  /**
+   * @brief Retrieves a chat by its ID.
+   * @param chatId The ID of the chat.
+   * @return Shared pointer to chat, or nullptr if not found.
+   */
   std::shared_ptr<Chat> getChatById(std::size_t chatId) const;
 
   /**
-s thChatMessagesf users.
+   * @brief Gets the list of users.
    * @return Const reference to the vector of users.
    */
   const std::vector<std::shared_ptr<User>> &getUsers() const;
@@ -56,13 +68,21 @@ s thChatMessagesf users.
   const std::shared_ptr<User> &getActiveUser() const;
 
   /**
-   * @brief Gets the login user map.
+   * @brief Gets the login-to-user map.
    * @return Const reference to the unordered map.
    */
   const std::unordered_map<std::string, std::shared_ptr<User>> &getLoginUserMap() const;
 
+  /**
+   * @brief Releases a chat ID for reuse.
+   * @param chatId The ID to release.
+   */
   void releaseChatId(std::size_t chatId);
 
+  /**
+   * @brief Releases a message ID for reuse.
+   * @param messageId The ID to release.
+   */
   void releaseMessageId(std::size_t messageId);
 
   /**
@@ -98,7 +118,7 @@ s thChatMessagesf users.
   /**
    * @brief Displays the list of users.
    * @param showActiveUser True to include the active user in the list.
-   * @return The number of users displayed.
+   * @return The index of the active user in the list or std::string::npos.
    */
   std::size_t showUserList(const bool showActiveUser); // вывод на экрын списка пользователей
 

@@ -1,6 +1,5 @@
 #include "chat_system.h"
 #include "chat/chat.h"
-#include "client-server/client_session.h"
 #include "system/system_function.h"
 #include <iostream>
 #include <memory>
@@ -14,6 +13,11 @@ std::size_t ChatSystem::getNewChatId() { return _idChatManager.getNextChatId(); 
 
 std::size_t ChatSystem::getNewMessageId() { return _idMessageManager.getNextMessageId(); }
 
+/**
+ * @brief Returns a chat by its ID.
+ * @param chatId ID of the chat.
+ * @return Shared pointer to chat if found, nullptr otherwise.
+ */
 std::shared_ptr<Chat> ChatSystem::getChatById(std::size_t chatId) const {
   auto it = _chatIdChatMap.find(chatId);
   if (it != _chatIdChatMap.end())
@@ -45,11 +49,19 @@ const std::shared_ptr<User> &ChatSystem::getActiveUser() const { return _activeU
  */
 const std::unordered_map<std::string, std::shared_ptr<User>> &ChatSystem::getLoginUserMap() const {
   return _loginUserMap;
-};
+}
 
+/**
+ * @brief Releases a chat ID back to the ID manager.
+ * @param chatId ID to release.
+ */
 void ChatSystem::releaseChatId(std::size_t chatId) { _idChatManager.releaseChatId(chatId); }
 
-void ChatSystem::releaseMessageId(std::size_t messageId) { _idMessageManager.releaseMessageId(messageId); };
+/**
+ * @brief Releases a message ID back to the ID manager.
+ * @param messageId ID to release.
+ */
+void ChatSystem::releaseMessageId(std::size_t messageId) { _idMessageManager.releaseMessageId(messageId); }
 
 /**
  * @brief Sets the active user.
@@ -63,7 +75,8 @@ void ChatSystem::setActiveUser(const std::shared_ptr<User> &user) { _activeUser 
  */
 void ChatSystem::addUser(const std::shared_ptr<User> &user) {
   _users.push_back(user);
-  _loginUserMap.insert({user->getLogin(), user});
+  if (_loginUserMap.find(user->getLogin()) != _loginUserMap.end())
+    return;
 }
 
 /**
@@ -97,8 +110,6 @@ void ChatSystem::eraseChat(const std::shared_ptr<Chat> &chat) {
  * @brief Displays the list of users.
  * @param showActiveUser True to include the active user in the list.
  * @return The index of the active user in the list.
- * @details Prints user names and logins, excluding the active user if
- * showActiveUser is false.
  */
 std::size_t ChatSystem::showUserList(const bool showActiveUser) { // вывод на экрын списка пользователей
   std::cout << "Список пользователей:" << std::endl;
@@ -119,10 +130,8 @@ std::size_t ChatSystem::showUserList(const bool showActiveUser) { // вывод 
 
 /**
  * @brief Finds users matching a search string.
- * @param users Vector to store found users.
+ * @param foundUsers Vector to store found users.
  * @param textToFind Search string to match against user names or logins.
- * @details Performs case-insensitive search for users, excluding the active
- * user.
  */
 void ChatSystem::findUserByTextPart(std::vector<std::shared_ptr<User>> &foundUsers,
                                     const std::string &textToFind) { // поиск пользователя

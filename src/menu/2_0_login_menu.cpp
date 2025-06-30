@@ -10,14 +10,14 @@
 #include <ostream>
 
 /**
- * @brief Displays the main authorization menu and retrieves user choice.
- * @return short Value corresponding to the user's choice:
- * - 1 — User registration
- * - 2 — Login to chat
- * - 0 — Exit program
- * @throws EmptyInputException If input is empty.
- * @throws IndexOutOfRangeException If input is not 0, 1, or 2.
- * @details Outputs a text menu to the console, processes user input, and returns the action code.
+ * @brief Displays the main authorization menu and retrieves the user's choice.
+ * @return short A value corresponding to the selected menu option:
+ * - 1 — Register a new user
+ * - 2 — Log in to ChatBot
+ * - 0 — Exit the program
+ * @throws EmptyInputException If the input is empty.
+ * @throws IndexOutOfRangeException If the input is not 0, 1, or 2.
+ * @details Outputs a text-based menu to the console, processes user input, and returns the selected action code.
  */
 short authMenu() { // вывод главного меню
   while (true) {
@@ -55,12 +55,12 @@ short authMenu() { // вывод главного меню
 }
 
 /**
- * @brief Handles user choices in the menu after authorization.
+ * @brief Handles menu navigation and user choices after successful login.
  * @param chatSystem Reference to the chat system.
- * @throws EmptyInputException If input is empty.
- * @throws IndexOutOfRangeException If input is not 0, 1, 2, 3, or 4.
- * @details Displays the post-login menu, processes user input, and directs to appropriate actions (new chat, chat list,
- * or user profile).
+ * @throws EmptyInputException If the input is empty.
+ * @throws IndexOutOfRangeException If the input is not 0, 1, 2, 3, or 4.
+ * @details Displays the post-login menu, processes user input, and calls corresponding menu handlers
+ * such as creating a new chat, viewing the chat list, or accessing the user profile.
  */
 void loginMenuChoice(ChatSystem &chatSystem) { // вывод главного меню
   int userChoiceNumber;

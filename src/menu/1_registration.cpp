@@ -12,16 +12,16 @@
 #include <string>
 
 /**
- * @brief Validates login or password input against specified constraints.
+ * @brief Validates a login or password string against defined constraints.
  * @param inputData The input string to validate.
- * @param contentLengthMin Minimum allowed length.
- * @param contentLengthMax Maximum allowed length.
- * @param isPassword True if validating a password, false for login.
- * @return True if the input is valid.
- * @throws InvalidQuantityCharacterException If the length is out of bounds.
- * @throws InvalidCharacterException If non-alphanumeric characters are found.
- * @throws NonCapitalCharacterException If password lacks a capital letter.
- * @throws NonDigitalCharacterException If password lacks a digit.
+ * @param contentLengthMin The minimum allowed length.
+ * @param contentLengthMax The maximum allowed length.
+ * @param isPassword Set to true if the input is a password, false if it's a login.
+ * @return True if the input passes all validation checks.
+ * @throws InvalidQuantityCharacterException If the length is outside the allowed range.
+ * @throws InvalidCharacterException If non-ASCII or invalid characters are found.
+ * @throws NonCapitalCharacterException If the password lacks an uppercase letter.
+ * @throws NonDigitalCharacterException If the password lacks a numeric digit.
  */
 bool checkNewDataInputForLimits(const std::string &inputData, std::size_t contentLengthMin,
                                 std::size_t contentLengthMax, bool isPassword) {
@@ -47,13 +47,11 @@ bool checkNewDataInputForLimits(const std::string &inputData, std::size_t conten
 
       if (std::isupper(ch))
         isCapital = true;
-    } // if
-    else
+    } else
       throw InvalidCharacterException("");
 
     i += charLen;
-
-  } // for i
+  }
 
   if (utf8SymbolCount < contentLengthMin || utf8SymbolCount > contentLengthMax)
     throw InvalidQuantityCharacterException();
@@ -69,21 +67,20 @@ bool checkNewDataInputForLimits(const std::string &inputData, std::size_t conten
 }
 
 /**
- * @brief Validates user input with retry attempts.
- * @param prompt Message displayed to the user.
- * @param dataLengthMin Minimum length of the input.
- * @param dataLengthMax Maximum length of the input.
- * @param isPassword True if input is a password.
+ * @brief Prompts the user for input and validates it according to specified rules.
+ * @param prompt The message shown to the user.
+ * @param dataLengthMin The minimum length allowed for the input.
+ * @param dataLengthMax The maximum length allowed for the input.
+ * @param isPassword True if validating a password, false for login or name.
  * @param newUserData True if creating a new user.
  * @param chatSystem Reference to the chat system.
- * @return Validated input string.
- * @throws EmptyInputException If input is empty.
+ * @return The validated input string.
+ * @throws EmptyInputException If the input is empty.
  */
 std::string inputDataValidation(const std::string &prompt, std::size_t dataLengthMin, std::size_t dataLengthMax,
                                 bool isPassword, bool newUserData, const ChatSystem &chatSystem) {
   std::string inputData;
 
-  // доделать проверку на utf-8 символы английского языка
   while (true) {
     std::cout << prompt << std::endl;
     std::getline(std::cin, inputData);
@@ -106,18 +103,12 @@ std::string inputDataValidation(const std::string &prompt, std::size_t dataLengt
 }
 
 /**
- * @brief Finds a user by login in the chat system.
+ * @brief Searches for a user in the chat system by login.
  * @param userLogin The login to search for.
  * @param chatSystem Reference to the chat system.
- * @return Shared pointer to the found user, or nullptr if not found.
+ * @return A shared pointer to the user if found, or nullptr otherwise.
  */
 std::shared_ptr<User> findUserbyLogin(const std::string &userLogin, const ChatSystem &chatSystem) {
-  //   const auto &users = chatSystem.getUsers();
-  //   auto it = std::find_if(users.begin(), users.end(),
-  //                          [&](const std::shared_ptr<User> &u) {
-  //                            return u->getLogin() == userLogin;
-  //                          });
-  //   return (it != users.end()) ? *it : nullptr;
 
   auto it = chatSystem.getLoginUserMap().find(userLogin);
   if (it == chatSystem.getLoginUserMap().end())
@@ -127,10 +118,10 @@ std::shared_ptr<User> findUserbyLogin(const std::string &userLogin, const ChatSy
 }
 
 /**
- * @brief Checks if a user with the specified login exists.
+ * @brief Checks if a login already exists in the system.
  * @param login The login to check.
  * @param chatSystem Reference to the chat system.
- * @return Shared pointer to the user if found, or nullptr if not found.
+ * @return A shared pointer to the user if found, or nullptr otherwise.
  */
 const std::shared_ptr<User> checkLoginExists(const std::string &login, const ChatSystem &chatSystem) {
   for (const auto &user : chatSystem.getUsers()) {
@@ -141,9 +132,11 @@ const std::shared_ptr<User> checkLoginExists(const std::string &login, const Cha
 }
 
 /**
- * @brief Verifies if the provided password matches the user's password.
+ * @brief Checks whether the given password is valid for the specified user.
+ * @param userPassword The password to verify.
+ * @param userLogin The login of the user.
  * @param chatSystem Reference to the chat system.
- * @return True if the password is valid, false otherwise.
+ * @return True if the password matches the stored one; false otherwise.
  */
 bool checkPasswordValidForUser(const std::string &userPassword, const std::string &userLogin,
                                const ChatSystem &chatSystem) {
@@ -156,8 +149,9 @@ bool checkPasswordValidForUser(const std::string &userPassword, const std::strin
 }
 
 /**
- * @brief Prompts and validates a new user login.
+ * @brief Prompts and validates a new login for user registration.
  * @param chatSystem Reference to the chat system for uniqueness checks.
+ * @return A valid and unique login string, or "0" to cancel.
  */
 std::string inputNewLogin(const ChatSystem &chatSystem) {
   while (true) {
@@ -187,8 +181,9 @@ std::string inputNewLogin(const ChatSystem &chatSystem) {
 }
 
 /**
- * @brief Prompts and validates a new user password.
+ * @brief Prompts and validates a new password for user registration.
  * @param chatSystem Reference to the chat system.
+ * @return A hashed valid password string, or empty if canceled.
  */
 std::string inputNewPassword(const ChatSystem &chatSystem) {
 
@@ -214,8 +209,9 @@ std::string inputNewPassword(const ChatSystem &chatSystem) {
 }
 
 /**
- * @brief Prompts and validates a new user display name.
+ * @brief Prompts and validates a new display name for user registration.
  * @param chatSystem Reference to the chat system.
+ * @return A valid name string, or empty if canceled.
  */
 std::string inputNewName(const ChatSystem &chatSystem) {
   std::size_t dataLengthMin = 3;
@@ -236,10 +232,10 @@ std::string inputNewName(const ChatSystem &chatSystem) {
 }
 
 /**
- * @brief Performs the full registration process for a new user.
+ * @brief Handles the registration process for a new user.
  * @param chatSystem Reference to the chat system.
- * @details Handles input and validation of login, password, and name, then adds
- * the user to the system.
+ * @details Collects and validates login, password, and display name, then adds
+ * the new user to the system.
  */
 void userRegistration(ChatSystem &chatSystem) {
   std::cout << "Регистрация нового пользователя." << std::endl;
@@ -266,9 +262,9 @@ void userRegistration(ChatSystem &chatSystem) {
 }
 
 /**
- * @brief Authenticates a user in the chat system.
+ * @brief Handles user login procedure in the chat system.
  * @param chatSystem Reference to the chat system.
- * @return True if login is successful, false if login fails.
+ * @return True if login is successful; false if canceled or failed.
  * @throws UserNotFoundException If the login does not exist.
  * @throws IncorrectPasswordException If the password is incorrect.
  */
@@ -277,7 +273,6 @@ bool userLoginInsystem(ChatSystem &chatSystem) {
   std::string userLogin = "";
   std::string userPassword = "";
 
-  // Login validation
   while (true) {
     try {
       userLogin = inputDataValidation("Введите логин или 0 для выхода:", 0, 0, false, false, chatSystem);
@@ -296,7 +291,6 @@ bool userLoginInsystem(ChatSystem &chatSystem) {
   auto user = findUserbyLogin(userLogin, chatSystem);
   chatSystem.setActiveUser(user);
 
-  // Password validation
   while (true) {
     try {
       userPassword = inputDataValidation("Введите пароль (или 0 для выхода):", 0, 0, true, false, chatSystem);

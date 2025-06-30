@@ -92,4 +92,3 @@ bool inputNewMessage(ChatSystem &chatSystem, std::shared_ptr<Chat> chat);
  * @return The lowercase version of the input string.
  */
 std::string TextToLower(const std::string &str); // приведение к нижнему регистру
-

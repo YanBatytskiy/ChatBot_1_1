@@ -72,11 +72,11 @@ void Message::printMessage(const std::shared_ptr<User> &currentUser) {
     auto sender_ptr = _sender.lock();
 
     if (sender_ptr == nullptr) {
-      std::cout << "Пользователь удален. " << sender_ptr->getLogin() << std::endl;
-    }
+      std::cout << "Пользователь удален. " << std::endl;
 
-    std::cout << "     -> Входящее от Логин/Имя:    " << sender_ptr->getLogin() << "/" << sender_ptr->getUserName()
-              << "    " << _time_stamp << ", GUID: " << _messageId << std::endl;
+      std::cout << "     -> Входящее от Логин/Имя:    " << sender_ptr->getLogin() << "/" << sender_ptr->getUserName()
+                << "    " << _time_stamp << ", messageId: " << _messageId << std::endl;
+    }
 
     for (const auto &content : _content) {
       if (auto textContent = std::dynamic_pointer_cast<MessageContent<TextContent>>(content)) {
@@ -89,7 +89,7 @@ void Message::printMessage(const std::shared_ptr<User> &currentUser) {
 
     std::cout << "\033[37m"; // white
     std::cout << "<- Исходящее от тебя: " << currentUser->getUserName() << "    " << _time_stamp
-              << "GUID: " << _messageId << std::endl;
+              << "messageId: " << _messageId << std::endl;
 
     for (const auto &content : _content) {
       if (auto textContent = std::dynamic_pointer_cast<MessageContent<TextContent>>(content)) {

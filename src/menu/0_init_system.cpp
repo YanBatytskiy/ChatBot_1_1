@@ -16,9 +16,9 @@
  * @param timeStamp The timestamp of the message.
  * @param sender Shared pointer to the sender user.
  * @param _recipients Vector of shared pointers to recipient users.
-
- * @details Initializes the InitDataArray struct with message details.
+ * @param messageId Unique message ID.
  */
+
 InitDataArray::InitDataArray(std::string messageText, std::string timeStamp, std::shared_ptr<User> sender,
                              std::vector<std::shared_ptr<User>> _recipients, std::size_t messageId)
     : _messageText(messageText), _timeStamp(timeStamp), _sender(sender), _recipients(_recipients),
@@ -140,7 +140,6 @@ void systemInitTest(ChatSystem &_chatsystem) {
     }
   }
 
-//   chat_ptr->addChatId(_chatsystem.getNewChatId());
   _chatsystem.addChat(chat_ptr);
 
   InitDataArray Elena_Alex1("Привет", "01-04-2025,12:00:00", Elena1510_ptr, recipients, _chatsystem.getNewMessageId());

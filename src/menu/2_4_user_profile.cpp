@@ -154,4 +154,3 @@ void loginMenu_4UserProfile(ChatSystem &chatSystem) {
     } // second while
   }
 }
-

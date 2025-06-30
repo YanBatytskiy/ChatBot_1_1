@@ -39,22 +39,22 @@ std::string User::getLogin() const { return _userData._login; }
 std::string User::getUserName() const { return _userData._userName; }
 
 /**
- * @brief Gets the user's passwordHash.
- * @return The user's passwordHash string.
+ * @brief Gets the user's password hash.
+ * @return The user's password hash string.
  */
 std::string User::getPassword() const { return _userData._passwordHash; }
 
 /**
  * @brief Gets the user's email.
- * @return The user's Email string.
+ * @return The user's email string.
  */
-std::string User::getEmail() const { return _userData._email; };
+std::string User::getEmail() const { return _userData._email; }
 
 /**
- * @brief Gets the user's phone.
+ * @brief Gets the user's phone number.
  * @return The user's phone string.
  */
-std::string User::getPhone() const { return _userData._phone; };
+std::string User::getPhone() const { return _userData._phone; }
 
 /**
  * @brief Gets the user's chat list.
@@ -72,11 +72,11 @@ void User::setLogin(const std::string &login) { _userData._login = login; }
  * @brief Sets the user's display name.
  * @param userName The new display name string.
  */
-void User::setUserName(const std::string &userName) { getUserName() = userName; }
+void User::setUserName(const std::string &userName) { _userData._userName = userName; }
 
 /**
- * @brief Sets the user's passwordHash.
- * @param passwordHash The new passwordHash string.
+ * @brief Sets the user's password hash.
+ * @param passwordHash The new password hash string.
  */
 void User::setPassword(const std::string &passwordHash) { _userData._passwordHash = passwordHash; }
 
@@ -84,18 +84,18 @@ void User::setPassword(const std::string &passwordHash) { _userData._passwordHas
  * @brief Sets the user's email.
  * @param email The new email string.
  */
-void User::setEmail(const std::string &email) { _userData._email = email; };
+void User::setEmail(const std::string &email) { _userData._email = email; }
 
 /**
- * @brief Sets the user's phone.
+ * @brief Sets the user's phone number.
  * @param phone The new phone string.
  */
-void User::setPhone(const std::string &phone) { _userData._phone = phone; };
+void User::setPhone(const std::string &phone) { _userData._phone = phone; }
 
 /**
- * @brief Checks if the provided passwordHash matches the user's passwordHash.
- * @param passwordHash The passwordHash to check.
- * @return True if the passwordHash matches, false otherwise.
+ * @brief Checks if the provided password hash matches the user's stored password hash.
+ * @param passwordHash The password hash to check.
+ * @return True if the hash matches, false otherwise.
  */
 bool User::checkPassword(const std::string &passwordHash) const { return (passwordHash == getPassword()); }
 
@@ -108,13 +108,13 @@ bool User::checkLogin(const std::string &login) const { return (getLogin() == lo
 
 /**
  * @brief Displays the user's data.
- * @details Prints the user's name, login, and passwordHash.
+ * @details Prints the user's name and login to stdout.
  */
 void User::showUserData() const { std::cout << "Name: " << getUserName() << ", Login: " << getLogin() << std::endl; }
 
 /**
- * @brief Displays the user's data for init.
- * @details Prints the user's name, login, and passwordHash.
+ * @brief Displays the user's data (compact).
+ * @details Prints the user's name and login to stdout without newline.
  */
 void User::showUserDataInit() const { std::cout << "Name: " << getUserName() << ", Login: " << getLogin(); }
 
@@ -158,7 +158,7 @@ void User::printChatList(const std::shared_ptr<User> &user) const {
     if (auto chat_ptr = weakChat.lock()) {
 
       std::cout << std::endl;
-      std::cout << index << ". GUID чата: " << chat_ptr->getChatId() << ", ";
+      std::cout << index << ". chatId чата: " << chat_ptr->getChatId() << ", ";
 
       const auto &messages = chat_ptr->getMessages();
       try {
