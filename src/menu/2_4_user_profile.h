@@ -1,6 +1,6 @@
 #pragma once
 
-#include "client-server/chat_system.h"
+#include "ChatBot/chat_system.h"
 
 /**
  * @brief Changes the username of the active user.

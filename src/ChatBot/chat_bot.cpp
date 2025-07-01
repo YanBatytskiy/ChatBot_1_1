@@ -1,4 +1,4 @@
-#include "client-server/chat_system.h"
+#include "chat_system.h"
 #include "menu/0_init_system.h"
 #include "menu/1_registration.h"
 #include "menu/2_0_login_menu.h"
@@ -28,10 +28,6 @@ int main() {
   while (true) {
     // Reset active user
     chatSystem.setActiveUser(nullptr);
-
-    // Set a default active user with login "E"
-    // std::shared_ptr<User> activeUser_ptr = findUserbyLogin("E", chatSystem);
-    // chatSystem.setActiveUser(activeUser_ptr);
 
     // Display authentication menu and get user choice
     userChoice = authMenu();

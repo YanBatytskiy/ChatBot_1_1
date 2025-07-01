@@ -1,6 +1,6 @@
 #pragma once
+#include "ChatBot/chat_system.h"
 #include "message/message_content_struct.h"
-#include "client-server/chat_system.h"
 #include <alloca.h>
 #include <string>
 #include <cstddef>

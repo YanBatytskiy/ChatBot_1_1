@@ -1,5 +1,6 @@
 #include "0_init_system.h"
 #include "chat/chat.h"
+#include "chat_system.h"
 #include "exception/validation_exception.h"
 #include "message/message_content_struct.h"
 #include "system/picosha2.h"

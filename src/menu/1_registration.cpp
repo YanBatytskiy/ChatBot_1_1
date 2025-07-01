@@ -1,7 +1,7 @@
 #include "1_registration.h"
 #include "exception/login_exception.h"
 #include "exception/validation_exception.h"
-#include "client-server/chat_system.h"
+#include "ChatBot/chat_system.h"
 #include "system/picosha2.h"
 #include "system/system_function.h"
 #include "user/user.h"
@@ -138,14 +138,12 @@ const std::shared_ptr<User> checkLoginExists(const std::string &login, const Cha
  * @param chatSystem Reference to the chat system.
  * @return True if the password matches the stored one; false otherwise.
  */
-bool checkPasswordValidForUser(const std::string &userPassword, const std::string &userLogin,
+bool checkPasswordValidForUser(const std::string &userPasswordHash, const std::string &userLogin,
                                const ChatSystem &chatSystem) {
 
   auto user = findUserbyLogin(userLogin, chatSystem);
 
-  std::string passwordHash = picosha2::hash256_hex_string(userPassword);
-
-  return passwordHash == user->getPassword();
+  return userPasswordHash == user->getPassword();
 }
 
 /**
@@ -297,7 +295,9 @@ bool userLoginInsystem(ChatSystem &chatSystem) {
       if (userPassword == "0")
         return false;
 
-      if (!checkPasswordValidForUser(userPassword, userLogin, chatSystem))
+        const auto userPasswordHash = picosha2::hash256_hex_string(userPassword);
+
+        if (!checkPasswordValidForUser(userPasswordHash, userLogin, chatSystem))
         throw IncorrectPasswordException();
 
       auto user = findUserbyLogin(userLogin, chatSystem);

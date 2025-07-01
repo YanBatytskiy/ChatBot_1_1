@@ -90,6 +90,11 @@ public:
    * @param user Shared pointer to the user to set as active.
    */
   void setActiveUser(const std::shared_ptr<User> &user);
+ 
+  /**
+   * @brief set the login-to-user map.
+   */
+  void setLoginUserMap(const std::string& login, const std::shared_ptr<User>& user);
 
   /**
    * @brief Adds a user to the system.

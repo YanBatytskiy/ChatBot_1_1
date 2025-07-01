@@ -1,18 +1,24 @@
 cmake_minimum_required(VERSION 3.16)
-project(ChatBot)
+project(ChatBot_1_1)
 
-if(DEFINED SOURCE_FILE)
-  get_filename_component(EXEC_NAME "${SOURCE_FILE}" NAME_WE)
-  message(STATUS "Building single file: ${SOURCE_FILE} → ${EXEC_NAME}")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-  include_directories("${CMAKE_SOURCE_DIR}/src")
+# Include paths — строго из проекта
+include_directories(
+  ${CMAKE_SOURCE_DIR}/src
+  ${CMAKE_SOURCE_DIR}/src/chat
+  ${CMAKE_SOURCE_DIR}/src/ChatBot
+  ${CMAKE_SOURCE_DIR}/src/client-server
+  ${CMAKE_SOURCE_DIR}/src/exception
+  ${CMAKE_SOURCE_DIR}/src/menu
+  ${CMAKE_SOURCE_DIR}/src/message
+  ${CMAKE_SOURCE_DIR}/src/system
+  ${CMAKE_SOURCE_DIR}/src/user
+)
 
-  file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/*.cpp")
+# Все исходники
+file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
-  set(MAIN_FILE "${CMAKE_SOURCE_DIR}/${SOURCE_FILE}")
-  list(REMOVE_ITEM ALL_SOURCES "${MAIN_FILE}")
-
-  add_executable(${EXEC_NAME} "${MAIN_FILE}" ${ALL_SOURCES})
-
-  return()
-endif()
+# Бинарник ChatBot_1_1
+add_executable(ChatBot_1_1 ${ALL_SOURCES})
