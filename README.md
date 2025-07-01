@@ -13,7 +13,6 @@ ChatBot/
 │   ├── chat/
 │   ├── user/
 │   ├── system/
-│   ├── client-server/
 │   ├── menu/
 │   ├── message/
 │   └── exception/
