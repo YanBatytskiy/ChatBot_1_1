@@ -9,7 +9,6 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_SOURCE_DIR}/src/chat
   ${CMAKE_SOURCE_DIR}/src/ChatBot
-  ${CMAKE_SOURCE_DIR}/src/client-server
   ${CMAKE_SOURCE_DIR}/src/exception
   ${CMAKE_SOURCE_DIR}/src/menu
   ${CMAKE_SOURCE_DIR}/src/message
@@ -21,4 +20,4 @@ include_directories(
 file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 # Бинарник ChatBot_1_1
-add_executable(ChatBot_1_1 ${ALL_SOURCES})
+add_executable(ChatBot ${ALL_SOURCES})

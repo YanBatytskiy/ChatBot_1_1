@@ -110,7 +110,7 @@ void Chat::printChat(const std::shared_ptr<User> &currentUser) {
     auto unReadCount = this->getLastReadMessageIndex(currentUser);
 
     std::cout << std::endl
-              << "Вот твой чат, GUID: " << this->getChatId() << ". В нем всего " << messageCount << " сообщения(ий). ";
+              << "Вот твой чат, chatId: " << this->getChatId() << ". В нем всего " << messageCount << " сообщения(ий). ";
     std::cout << "\033[32m";
     std::cout << "Из них непрочитанных - " << messageCount - unReadCount << std::endl;
     std::cout << "\033[0m";

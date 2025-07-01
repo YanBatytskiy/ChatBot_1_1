@@ -1,7 +1,7 @@
 #include "1_registration.h"
+#include "ChatBot/chat_system.h"
 #include "exception/login_exception.h"
 #include "exception/validation_exception.h"
-#include "ChatBot/chat_system.h"
 #include "system/picosha2.h"
 #include "system/system_function.h"
 #include "user/user.h"
@@ -48,7 +48,12 @@ bool checkNewDataInputForLimits(const std::string &inputData, std::size_t conten
       if (std::isupper(ch))
         isCapital = true;
     } else
-      throw InvalidCharacterException("");
+      throw InvalidCharacterException(""); // std::cout << "DEBUG NewUser:" << std::endl;
+    // std::cout << "Login: " << user->getLogin() << std::endl;
+    // std::cout << "Name: " << user->getUserName() << std::endl;
+    // std::cout << "PassHash: " << user->getPassword() << std::endl;
+    // std::cout << "Email: " << user->getEmail() << std::endl;
+    // std::cout << "Phone: " << user->getPhone() << std::endl;
 
     i += charLen;
   }
@@ -143,6 +148,10 @@ bool checkPasswordValidForUser(const std::string &userPasswordHash, const std::s
 
   auto user = findUserbyLogin(userLogin, chatSystem);
 
+  bool check;
+  auto passHash = user->getPassword();
+  check = userPasswordHash == user->getPassword();
+
   return userPasswordHash == user->getPassword();
 }
 
@@ -157,10 +166,8 @@ std::string inputNewLogin(const ChatSystem &chatSystem) {
     std::size_t dataLengthMax = 15;
     std::string prompt;
 
-    prompt = "Введите новый Логин либо 0 для выхода в предыдущее меню. Логин "
-             "не менее " +
-             std::to_string(dataLengthMin) + " символов и не более " + std::to_string(dataLengthMax) +
-             " символов (можно использовать только латинские буквы и цифры) - ";
+    prompt = "Введите новый Логин либо 0 для выхода. Не менее " + std::to_string(dataLengthMin) +
+             " символов и не более " + std::to_string(dataLengthMax) + " символов (только латинские буквы и цифры) - ";
 
     std::string newLogin = inputDataValidation(prompt, dataLengthMin, dataLengthMax, false, true, chatSystem);
 
@@ -189,19 +196,16 @@ std::string inputNewPassword(const ChatSystem &chatSystem) {
   std::size_t dataLengthMax = 10;
   std::string prompt;
 
-  prompt = "Введите новый Пароль либо 0 для выхода в предыдущее меню. Пароль "
-           "не менее " +
-           std::to_string(dataLengthMin) + " символов и не более " + std::to_string(dataLengthMax) +
-           " символов обязательно использовать минимум одну заглавную букву и "
-           "одну цифру (можно использовать только "
-           "латинские буквы и цифры) - ";
+  prompt = "Введите новый Пароль либо 0 для выхода. Не менее " + std::to_string(dataLengthMin) +
+           " символов и не более " + std::to_string(dataLengthMax) +
+           ", обязательно одна заглавная буква и одна цифра (Только латинские буквы) - ";
 
   std::string newPassword = inputDataValidation(prompt, dataLengthMin, dataLengthMax, true, true, chatSystem);
 
   if (newPassword == "0")
     newPassword.clear();
-  else
-    newPassword = picosha2::hash256_hex_string(newPassword);
+  //   else
+  //     newPassword = picosha2::hash256_hex_string(newPassword);
 
   return newPassword;
 }
@@ -216,10 +220,8 @@ std::string inputNewName(const ChatSystem &chatSystem) {
   std::size_t dataLengthMax = 10;
   std::string prompt;
 
-  prompt = "Введите желаемое Имя для отображениялибо 0 для выхода в предыдущее "
-           "меню. Не менее " +
-           std::to_string(dataLengthMin) + "символов и не более " + std::to_string(dataLengthMax) +
-           " символов, (можно использовать только латинские буквы и цифры) - ";
+  prompt = "Введите желаемое Имя для отображениялибо 0 для выхода. Не менее " + std::to_string(dataLengthMin) +
+           "символов и не более " + std::to_string(dataLengthMax) + ", (только латинские буквы и цифры) - ";
 
   std::string newName = inputDataValidation(prompt, dataLengthMin, dataLengthMax, false, true, chatSystem);
 
@@ -240,23 +242,39 @@ void userRegistration(ChatSystem &chatSystem) {
   UserData userData;
 
   std::string newLogin = inputNewLogin(chatSystem);
-  if (newLogin.empty())
+  if (newLogin.empty() || newLogin == "0")
     return;
 
   std::string newPassword = inputNewPassword(chatSystem);
-  if (newPassword.empty())
+  if (newPassword.empty() || newPassword == "0")
     return;
 
   std::string newName = inputNewName(chatSystem);
   if (newName.empty())
     return;
 
-  auto newUser = std::make_shared<User>(UserData(newLogin, newName, newPassword, "...@gmail.com", "+111"));
+  const auto &userPasswordHash = picosha2::hash256_hex_string(newPassword);
+
+  auto newUser = std::make_shared<User>(UserData(newLogin, newName, userPasswordHash, "...@gmail.com", "+111"));
 
   chatSystem.addUser(newUser);
-  chatSystem.setActiveUser(newUser);
-  newUser->showUserData();
   newUser->createChatList(std::make_shared<UserChatList>(newUser));
+
+  const auto &user = findUserbyLogin(newLogin, chatSystem);
+
+  if (user == nullptr)
+    std::cout << "user = nullptr";
+  else {
+    user->showUserData();
+
+    // для проверки
+    // std::cout << "DEBUG NewUser:" << std::endl;
+    // std::cout << "Login: " << user->getLogin() << std::endl;
+    // std::cout << "Name: " << user->getUserName() << std::endl;
+    // std::cout << "PassHash: " << user->getPassword() << std::endl;
+    // std::cout << "Email: " << user->getEmail() << std::endl;
+    // std::cout << "Phone: " << user->getPhone() << std::endl;
+  }
 }
 
 /**
@@ -295,9 +313,9 @@ bool userLoginInsystem(ChatSystem &chatSystem) {
       if (userPassword == "0")
         return false;
 
-        const auto userPasswordHash = picosha2::hash256_hex_string(userPassword);
+      const auto &userPasswordHash = picosha2::hash256_hex_string(userPassword);
 
-        if (!checkPasswordValidForUser(userPasswordHash, userLogin, chatSystem))
+      if (!checkPasswordValidForUser(userPasswordHash, userLogin, chatSystem))
         throw IncorrectPasswordException();
 
       auto user = findUserbyLogin(userLogin, chatSystem);

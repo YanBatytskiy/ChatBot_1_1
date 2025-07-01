@@ -1,7 +1,8 @@
 #include "2_4_user_profile.h"
+#include "ChatBot/chat_system.h"
 #include "exception/validation_exception.h"
 #include "menu/1_registration.h"
-#include "ChatBot/chat_system.h"
+#include "picosha2.h"
 #include "system/system_function.h"
 #include <iostream>
 
@@ -33,11 +34,13 @@ void userPasswordChange(ChatSystem &chatSystem) { // смена пароля п�
 
   UserData userData;
 
-std::string newPassword = inputNewPassword(chatSystem);
+  std::string newPassword = inputNewPassword(chatSystem);
   if (newPassword.empty())
     return;
 
-  chatSystem.getActiveUser()->setPassword(newPassword);
+  const auto &userPasswordHash = picosha2::hash256_hex_string(newPassword);
+
+  chatSystem.getActiveUser()->setPassword(userPasswordHash);
 
   std::cout << "Пароль изменен. Логин = " << chatSystem.getActiveUser()->getLogin()
             << " и Имя = " << chatSystem.getActiveUser()->getUserName()
@@ -84,7 +87,8 @@ void userChatDeleteAll(ChatSystem &chatSystem) {
  * @param chatSystem Reference to the chat system.
  * @throws EmptyInputException If input is empty.
  * @throws IndexOutOfRangeException If input is not 0, 1, 2, 3, 4, 5, or 6.
- * @details Shows profile options and handles user actions like changing name or password; some features are under construction.
+ * @details Shows profile options and handles user actions like changing name or password; some features are under
+ * construction.
  */
 void loginMenu_4UserProfile(ChatSystem &chatSystem) {
   int userChoiceNumber;

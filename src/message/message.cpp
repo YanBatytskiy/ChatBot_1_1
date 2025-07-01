@@ -57,52 +57,40 @@ void Message::addMessageId(std::size_t messageId) { _messageId = messageId; }
  */
 void Message::printMessage(const std::shared_ptr<User> &currentUser) {
 
-  auto sender = _sender.lock();
-  if (!sender)
-    return;
+  // определили отправителя
+  auto sender_ptr = _sender.lock();
 
   // определили направление сообщения
-  bool messageDirection = (sender == currentUser);
+  bool messageDirection;
+
+  if (sender_ptr == nullptr) {
+    messageDirection = false;
+  } else
+    messageDirection = (sender_ptr == currentUser);
 
   if (!messageDirection) { // income Message
 
-    std::cout << "\033[32m"; // red
+    std::cout << "\033[32m"; // green
 
-    // определили отправителя
-    auto sender_ptr = _sender.lock();
-
-    if (sender_ptr == nullptr) {
-      std::cout << "Пользователь удален. " << std::endl;
-
-      std::cout << "     -> Входящее от Логин/Имя:    " << sender_ptr->getLogin() << "/" << sender_ptr->getUserName()
+    if (sender_ptr != nullptr) {
+      std::cout << "     <- Входящее от Логин/Имя:    " << sender_ptr->getLogin() << "/" << sender_ptr->getUserName()
                 << "    " << _time_stamp << ", messageId: " << _messageId << std::endl;
-    }
-
-    for (const auto &content : _content) {
-      if (auto textContent = std::dynamic_pointer_cast<MessageContent<TextContent>>(content)) {
-        std::cout << textContent->getMessageContent()._text << std::endl;
-      } else if (auto imageContent = std::dynamic_pointer_cast<MessageContent<ImageContent>>(content)) {
-        std::cout << imageContent->getMessageContent()._image << std::endl;
-      }
+    } else {
+      std::cout << "     <- Входящее от Логин/Имя:    " << "Пользователь удален.    " << _time_stamp
+                << ", messageId: " << _messageId << std::endl;
     }
   } else {
-
     std::cout << "\033[37m"; // white
-    std::cout << "<- Исходящее от тебя: " << currentUser->getUserName() << "    " << _time_stamp
-              << "messageId: " << _messageId << std::endl;
-
-    for (const auto &content : _content) {
-      if (auto textContent = std::dynamic_pointer_cast<MessageContent<TextContent>>(content)) {
-        std::cout << textContent->getMessageContent()._text << std::endl;
-      } else if (auto imageContent = std::dynamic_pointer_cast<MessageContent<ImageContent>>(content)) {
-        std::cout << imageContent->getMessageContent()._image << std::endl;
-      }
+    std::cout << "-> Исходящее от тебя: " << currentUser->getUserName() << "    " << _time_stamp
+              << " messageId: " << _messageId << std::endl;
+  }
+  for (const auto &content : _content) {
+    if (auto textContent = std::dynamic_pointer_cast<MessageContent<TextContent>>(content)) {
+      std::cout << textContent->getMessageContent()._text << std::endl;
+    } else if (auto imageContent = std::dynamic_pointer_cast<MessageContent<ImageContent>>(content)) {
+      std::cout << imageContent->getMessageContent()._image << std::endl;
     }
   }
 
   std::cout << "\033[0m";
 }
-
-// delete message will be realized further
-
-// edit message will be realized further

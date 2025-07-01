@@ -32,14 +32,14 @@ InitDataArray::InitDataArray(std::string messageText, std::string timeStamp, std
  * with sample messages.
  */
 
-// const std::string initUserPassword[] = {"User01", "User02", "User03", "User04", "User05",
-//                                         "User06", "User07", "User08"};
-const std::string initUserPassword[] = {"1", "1", "1", "1", "1", "1", "1", "1"};
+const std::string initUserPassword[] = {"User01", "User02", "User03", "User04", "User05",
+                                        "User06", "User07", "User08"};
+// const std::string initUserPassword[] = {"1", "1", "1", "1", "1", "1", "1", "1"};
 
-// const std::string initUserLogin[] = {"alex1980", "elena1980", "serg1980", "vit1980",
-//                                      "mar1980",  "fed1980",   "vera1980", "yak1980"};
+const std::string initUserLogin[] = {"alex1980", "elena1980", "serg1980", "vit1980",
+                                     "mar1980",  "fed1980",   "vera1980", "yak1980"};
 
-const std::string initUserLogin[] = {"a", "e", "s", "v", "m", "f", "ver", "y"};
+// const std::string initUserLogin[] = {"a", "e", "s", "v", "m", "f", "ver", "y"};
 
 void systemInitTest(ChatSystem &_chatsystem) {
   // Создание пользователей
