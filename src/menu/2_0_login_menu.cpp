@@ -21,7 +21,7 @@
  */
 short authMenu() { // вывод главного меню
   while (true) {
-    std::cout << std::endl << "ChatBot 'Shark' Версия 1.0. @2025 \n \n";
+    std::cout << std::endl << "ChatBot 'Shark' Версия 1.1. @2025 \n \n";
 
     std::cout << "Выберите пункт меню: " << ::std::endl
               << "1. Регистрация пользователя " << std::endl
